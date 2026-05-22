@@ -3,27 +3,306 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIWAI — Do It With AI</title>
+    <title>DIWAI — Smarter DIY. Do It With AI.</title>
+    <meta name="description" content="DIWAI is your AI-powered DIY copilot. Snap a photo, get a step-by-step project plan with tools, materials, costs and safety guidance.">
+    <meta property="og:title" content="DIWAI — Smarter DIY. Do It With AI.">
+    <meta property="og:description" content="Your AI-powered DIY copilot. Snap a photo, get a complete project plan.">
+    <meta property="og:image" content="images/logo.png">
+    <link rel="icon" type="image/png" href="images/logo.png">
     <style>
+        :root {
+            --blue: #1a56db;
+            --blue-light: #e8eefb;
+            --navy: #0f1b2d;
+            --gray: #6b7280;
+            --gray-light: #f7f8fa;
+            --text: #1d1d1f;
+            --radius: 16px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1d1d1f; background: #fff; line-height: 1.6; }
-        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
-        h1 { font-size: 2rem; margin-bottom: 8px; }
-        p.tagline { font-size: 1.1rem; color: #6e6e73; margin-bottom: 40px; }
-        nav a { display: inline-block; margin-right: 24px; color: #0066cc; text-decoration: none; font-size: 1rem; }
-        nav a:hover { text-decoration: underline; }
-        footer { margin-top: 60px; color: #86868b; font-size: 0.85rem; }
+        html { scroll-behavior: smooth; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+
+        /* NAV */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,0,0,0.06);
+        }
+        nav .nav-inner {
+            max-width: 1080px; margin: 0 auto; padding: 14px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+        nav .logo-group img { width: 36px; height: 36px; border-radius: 8px; }
+        nav .logo-group span { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+        nav .nav-links { display: flex; gap: 28px; align-items: center; }
+        nav .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
+        nav .nav-links a:hover { color: var(--text); }
+        nav .nav-links .cta-btn { background: var(--blue); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 600; transition: background 0.2s; }
+        nav .nav-links .cta-btn:hover { background: #1347b8; color: #fff; }
+
+        /* HERO */
+        .hero {
+            padding: 140px 24px 80px; text-align: center;
+            background: linear-gradient(180deg, var(--blue-light) 0%, #fff 100%);
+        }
+        .hero img.hero-logo { width: 100px; height: 100px; border-radius: 22px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(26,86,219,0.15); }
+        .hero h1 { font-size: 3.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; color: var(--navy); }
+        .hero .strapline { font-size: 1.35rem; color: var(--gray); margin-bottom: 36px; font-weight: 400; }
+        .hero .subtitle { font-size: 1.1rem; color: var(--gray); max-width: 540px; margin: 0 auto 40px; line-height: 1.7; }
+        .hero .app-store-btn { display: inline-block; transition: transform 0.2s; }
+        .hero .app-store-btn:hover { transform: scale(1.05); }
+        .hero .app-store-btn img { height: 54px; }
+
+        /* SCREENSHOTS */
+        .screenshots { padding: 60px 24px 80px; background: #fff; overflow: hidden; }
+        .screenshots h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.02em; }
+        .screenshot-track {
+            display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; max-width: 1100px; margin: 0 auto;
+        }
+        .screenshot-track img {
+            width: 200px; border-radius: 24px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.1); transition: transform 0.3s;
+        }
+        .screenshot-track img:hover { transform: translateY(-6px); }
+
+        /* FEATURES */
+        .features { padding: 80px 24px; background: var(--gray-light); }
+        .features h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .features .section-sub { text-align: center; color: var(--gray); margin-bottom: 48px; font-size: 1.05rem; }
+        .features-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px; max-width: 960px; margin: 0 auto;
+        }
+        .feature-card {
+            background: #fff; border-radius: var(--radius); padding: 32px 28px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .feature-card .icon { font-size: 1.8rem; margin-bottom: 12px; }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
+        .feature-card p { color: var(--gray); font-size: 0.95rem; line-height: 1.6; }
+
+        /* HOW IT WORKS */
+        .how-it-works { padding: 80px 24px; background: #fff; }
+        .how-it-works h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 48px; letter-spacing: -0.02em; }
+        .steps-row { display: flex; gap: 32px; max-width: 860px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+        .step { flex: 1; min-width: 220px; text-align: center; padding: 0 12px; }
+        .step .step-num {
+            width: 48px; height: 48px; border-radius: 50%; background: var(--blue); color: #fff;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.2rem; margin-bottom: 16px;
+        }
+        .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
+        .step p { color: var(--gray); font-size: 0.92rem; }
+
+        /* PRICING */
+        .pricing { padding: 80px 24px; background: var(--gray-light); }
+        .pricing h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
+        .pricing .section-sub { text-align: center; color: var(--gray); margin-bottom: 48px; font-size: 1.05rem; }
+        .pricing-grid { display: flex; gap: 28px; max-width: 720px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+        .price-card {
+            flex: 1; min-width: 280px; max-width: 340px; background: #fff; border-radius: var(--radius); padding: 36px 32px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04); text-align: center; position: relative;
+        }
+        .price-card.featured { border: 2px solid var(--blue); }
+        .price-card .badge {
+            position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+            background: var(--blue); color: #fff; font-size: 0.75rem; font-weight: 700;
+            padding: 4px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em;
+        }
+        .price-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
+        .price-card .price { font-size: 2.4rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
+        .price-card .price-period { color: var(--gray); font-size: 0.9rem; margin-bottom: 24px; }
+        .price-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
+        .price-card ul li { padding: 6px 0; font-size: 0.95rem; color: #374151; }
+        .price-card ul li::before { content: "\2713"; color: var(--blue); font-weight: 700; margin-right: 10px; }
+        .price-card .plan-btn {
+            display: inline-block; width: 100%; padding: 12px; border-radius: 10px; font-weight: 600;
+            text-decoration: none; font-size: 1rem; transition: background 0.2s;
+        }
+        .price-card .plan-btn.outline { background: var(--blue-light); color: var(--blue); }
+        .price-card .plan-btn.outline:hover { background: #d6e0f7; }
+        .price-card .plan-btn.solid { background: var(--blue); color: #fff; }
+        .price-card .plan-btn.solid:hover { background: #1347b8; }
+
+        /* CTA */
+        .cta-section { padding: 80px 24px; text-align: center; background: var(--navy); color: #fff; }
+        .cta-section h2 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
+        .cta-section p { color: #94a3b8; margin-bottom: 32px; font-size: 1.05rem; }
+        .cta-section .app-store-btn img { height: 54px; }
+        .cta-section .app-store-btn { transition: transform 0.2s; display: inline-block; }
+        .cta-section .app-store-btn:hover { transform: scale(1.05); }
+
+        /* FOOTER */
+        footer { padding: 32px 24px; text-align: center; color: #86868b; font-size: 0.85rem; background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); }
+        footer a { color: #94a3b8; text-decoration: none; margin: 0 12px; }
+        footer a:hover { color: #fff; }
+        footer .footer-links { margin-bottom: 12px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 640px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero .strapline { font-size: 1.1rem; }
+            .screenshot-track img { width: 150px; }
+            nav .nav-links a:not(.cta-btn) { display: none; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>DIWAI</h1>
-        <p class="tagline">Do It With AI — your AI-powered DIY assistant.</p>
-        <nav>
-            <a href="/privacy.html">Privacy Policy</a>
-            <a href="/support.html">Support</a>
-        </nav>
-        <footer>&copy; 2025 DIWAI. All rights reserved.</footer>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="#" class="logo-group">
+            <img src="images/logo.png" alt="DIWAI logo">
+            <span>DIWAI</span>
+        </a>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#download" class="cta-btn">Download</a>
+        </div>
     </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <img src="images/logo.png" alt="DIWAI app icon" class="hero-logo">
+    <h1>DIWAI</h1>
+    <p class="strapline">Smarter DIY. Do It With AI.</p>
+    <p class="subtitle">Your AI-powered DIY copilot. Snap a photo of anything in your home and get a complete project plan with step-by-step instructions, tools, materials, costs and safety guidance.</p>
+    <a href="#download" class="app-store-btn">
+        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+    </a>
+</section>
+
+<!-- SCREENSHOTS -->
+<section class="screenshots">
+    <h2>See It in Action</h2>
+    <div class="screenshot-track">
+        <img src="images/screenshots/camera.png" alt="Camera view — point at what needs fixing">
+        <img src="images/screenshots/plan.png" alt="Plan a project — describe or photograph your DIY task">
+        <img src="images/screenshots/overview.png" alt="Project overview with tools, materials and cost estimate">
+        <img src="images/screenshots/steps.png" alt="Step-by-step project instructions">
+        <img src="images/screenshots/execution.png" alt="Detailed step execution with images and guidance">
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+    <h2>Your DIY Copilot</h2>
+    <p class="section-sub">Everything you need to tackle any project with confidence.</p>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="icon">&#128247;</div>
+            <h3>Snap &amp; Plan</h3>
+            <p>Point your camera at a leaky tap, cracked wall, or tired room. DIWAI analyses the image and generates a full project plan instantly.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#128295;</div>
+            <h3>Tools &amp; Materials List</h3>
+            <p>Every project comes with a detailed list of exactly what you need — tools, materials, quantities, and estimated costs so there are no surprise trips to the shop.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#128220;</div>
+            <h3>Step-by-Step Instructions</h3>
+            <p>Clear, numbered steps with time estimates and images. Follow along at your own pace and mark each step as complete.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#9888;&#65039;</div>
+            <h3>Safety Guidance</h3>
+            <p>PPE recommendations, hazard warnings, and pro tips for every step. DIWAI keeps you safe while you work.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#128176;</div>
+            <h3>Cost Estimates</h3>
+            <p>Know what you'll spend before you start. DIWAI estimates material costs localised to your region, so you can budget with confidence.</p>
+        </div>
+        <div class="feature-card">
+            <div class="icon">&#127908;</div>
+            <h3>Voice Control</h3>
+            <p>Hands covered in paint? Use voice commands to navigate steps, mark progress, and keep working without touching your phone.</p>
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+    <h2>How It Works</h2>
+    <div class="steps-row">
+        <div class="step">
+            <div class="step-num">1</div>
+            <h3>Describe or Photograph</h3>
+            <p>Type what you want to do or snap a photo. "Tile my bathroom wall", "fix this leaking tap" — anything goes.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">2</div>
+            <h3>Get Your Plan</h3>
+            <p>AI analyses your project and builds a complete plan: steps, tools, materials, cost estimate, difficulty rating and time.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">3</div>
+            <h3>Do It</h3>
+            <p>Follow each step with detailed instructions, images and safety tips. Track your progress and complete like a pro.</p>
+        </div>
+    </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+    <h2>Simple Pricing</h2>
+    <p class="section-sub">Start free. Upgrade when you're ready.</p>
+    <div class="pricing-grid">
+        <div class="price-card">
+            <h3>Free</h3>
+            <div class="price">&pound;0</div>
+            <div class="price-period">forever</div>
+            <ul>
+                <li>3 projects per month</li>
+                <li>Full step-by-step instructions</li>
+                <li>Tools &amp; materials lists</li>
+                <li>Cost estimates</li>
+                <li>Safety guidance</li>
+            </ul>
+            <a href="#download" class="plan-btn outline">Get Started</a>
+        </div>
+        <div class="price-card featured">
+            <div class="badge">Most Popular</div>
+            <h3>Pro</h3>
+            <div class="price">&pound;4.99</div>
+            <div class="price-period">per month</div>
+            <ul>
+                <li>Unlimited projects</li>
+                <li>Voice control hands-free mode</li>
+                <li>Priority AI processing</li>
+                <li>Project history &amp; bookmarks</li>
+                <li>All Free features included</li>
+            </ul>
+            <a href="#download" class="plan-btn solid">Start Free Trial</a>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="download">
+    <h2>Ready to start your next project?</h2>
+    <p>Download DIWAI and let AI be your DIY copilot.</p>
+    <a href="#" class="app-store-btn">
+        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+    </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="support.html">Support</a>
+        <a href="mailto:support@diwai.app">Contact</a>
+    </div>
+    &copy; 2025 DIWAI. All rights reserved.
+</footer>
+
 </body>
 </html>
