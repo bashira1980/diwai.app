@@ -115,12 +115,13 @@
         .pricing { padding: 80px 24px; background: var(--graphite); }
         .pricing h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; color: #FFFFFF; }
         .pricing .section-sub { text-align: center; color: var(--muted); margin-bottom: 48px; font-size: 1.05rem; }
-        .pricing-grid { display: flex; gap: 28px; max-width: 720px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
+        .pricing-grid { display: flex; gap: 24px; max-width: 1060px; margin: 0 auto; flex-wrap: wrap; justify-content: center; align-items: stretch; }
         .price-card {
-            flex: 1; min-width: 280px; max-width: 340px; background: var(--card-bg); border: 1px solid var(--card-border);
-            border-radius: var(--radius); padding: 36px 32px; text-align: center; position: relative;
+            flex: 1; min-width: 260px; max-width: 340px; background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: var(--radius); padding: 36px 28px; text-align: center; position: relative;
+            display: flex; flex-direction: column;
         }
-        .price-card.featured { border: 2px solid var(--warm-orange); }
+        .price-card.featured { border: 2px solid var(--warm-orange); transform: scale(1.04); }
         .price-card .badge {
             position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
             background: var(--warm-orange); color: #fff; font-size: 0.75rem; font-weight: 700;
@@ -129,15 +130,20 @@
         .price-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: #FFFFFF; }
         .price-card .price { font-size: 2.4rem; font-weight: 800; color: var(--warm-orange); margin-bottom: 4px; }
         .price-card .price-period { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
-        .price-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
-        .price-card ul li { padding: 6px 0; font-size: 0.95rem; color: var(--titanium); }
+        .price-card .price-yearly { color: var(--electric-blue); font-size: 0.85rem; margin-top: -18px; margin-bottom: 24px; font-weight: 500; }
+        .price-card ul { list-style: none; text-align: left; margin-bottom: 28px; flex: 1; }
+        .price-card ul li { padding: 6px 0; font-size: 0.92rem; color: var(--titanium); }
         .price-card ul li::before { content: "\2713"; color: var(--warm-orange); font-weight: 700; margin-right: 10px; }
+        .price-card ul li.disabled { color: var(--muted); opacity: 0.5; }
+        .price-card ul li.disabled::before { content: "\2717"; color: var(--muted); }
         .price-card .plan-btn {
             display: inline-block; width: 100%; padding: 12px; border-radius: 10px; font-weight: 600;
-            text-decoration: none; font-size: 1rem; transition: background 0.2s;
+            text-decoration: none; font-size: 1rem; transition: background 0.2s; cursor: pointer;
         }
         .price-card .plan-btn.solid { background: var(--warm-orange); color: #fff; }
         .price-card .plan-btn.solid:hover { background: #E56D00; }
+        .price-card .plan-btn.outline { background: transparent; color: var(--warm-orange); border: 2px solid var(--warm-orange); }
+        .price-card .plan-btn.outline:hover { background: rgba(255,122,0,0.1); }
 
         /* CTA */
         .cta-section { padding: 80px 24px; text-align: center; background: var(--deep-navy); border-top: 1px solid var(--card-border); }
@@ -276,25 +282,61 @@
 
 <!-- PRICING -->
 <section class="pricing" id="pricing">
-    <h2>Simple Pricing</h2>
-    <p class="section-sub">Try everything free for 7 days. No commitment.</p>
+    <h2>Choose Your <span class="orange">Plan</span></h2>
+    <p class="section-sub">Start with a 7-day free trial. Upgrade or cancel anytime.</p>
     <div class="pricing-grid">
+        <!-- FREE -->
+        <div class="price-card">
+            <h3>Free</h3>
+            <div class="price">&pound;0</div>
+            <div class="price-period">forever</div>
+            <ul>
+                <li>7-day trial of Pro features</li>
+                <li>1 project per month</li>
+                <li>Basic AI photo analysis</li>
+                <li>Nearby store finder</li>
+                <li class="disabled">Unlimited projects</li>
+                <li class="disabled">AI Design Mode</li>
+                <li class="disabled">Priority AI processing</li>
+            </ul>
+            <a href="#download" class="plan-btn outline">Get Started</a>
+        </div>
+        <!-- PRO -->
         <div class="price-card featured">
-            <div class="badge">7-Day Free Trial</div>
+            <div class="badge">Most Popular</div>
             <h3>Pro</h3>
             <div class="price">&pound;4.99</div>
-            <div class="price-period">per month &middot; after free trial</div>
+            <div class="price-period">per month</div>
+            <div class="price-yearly">or &pound;39.99/year (save 33%)</div>
             <ul>
-                <li>7-day free trial — full access</li>
+                <li>7-day free trial</li>
                 <li>Unlimited projects</li>
+                <li>AI Fix &amp; Plan modes</li>
                 <li>Full step-by-step instructions</li>
-                <li>Tools &amp; materials lists</li>
-                <li>Cost estimates &amp; safety guidance</li>
+                <li>Tools, materials &amp; cost estimates</li>
+                <li>Shopping lists with store prices</li>
                 <li>Voice control hands-free mode</li>
-                <li>Nearby store finder</li>
-                <li>Project history &amp; bookmarks</li>
+                <li>Safety guidance &amp; regulations</li>
+                <li class="disabled">AI Design Mode</li>
             </ul>
             <a href="#download" class="plan-btn solid">Start Free Trial</a>
+        </div>
+        <!-- PREMIUM -->
+        <div class="price-card">
+            <div class="badge" style="background:var(--electric-blue);">Best Value</div>
+            <h3>Premium</h3>
+            <div class="price">&pound;9.99</div>
+            <div class="price-period">per month</div>
+            <div class="price-yearly">or &pound;79.99/year (save 33%)</div>
+            <ul>
+                <li>Everything in Pro</li>
+                <li>AI Design Mode &mdash; visualise renovations</li>
+                <li>Before &amp; after comparisons</li>
+                <li>Priority AI processing</li>
+                <li>Early access to new features</li>
+                <li>Unlimited design mockups</li>
+            </ul>
+            <a href="#download" class="plan-btn outline">Start Free Trial</a>
         </div>
     </div>
 </section>
@@ -315,7 +357,7 @@
         <a href="support.html">Support</a>
         <a href="mailto:support@diwai.app">Contact</a>
     </div>
-    <span class="footer-brand"><span class="white">DIW</span><span class="orange">AI</span></span> &mdash; AI-Powered DIY Assistant &copy; 2025
+    <span class="footer-brand"><span class="white">DIW</span><span class="orange">AI</span></span> &mdash; AI-Powered DIY Assistant &copy; 2026
 </footer>
 
 </body>
