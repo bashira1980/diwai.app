@@ -3,147 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIWAI — Smarter DIY. Do It With AI.</title>
-    <meta name="description" content="DIWAI is your AI-powered DIY copilot. Snap a photo, get a step-by-step project plan with tools, materials, costs and safety guidance.">
-    <meta property="og:title" content="DIWAI — Smarter DIY. Do It With AI.">
-    <meta property="og:description" content="Your AI-powered DIY copilot. Snap a photo, get a complete project plan.">
+    <title>DIWAI — AI-Powered DIY Assistant</title>
+    <meta name="description" content="DIWAI is your AI-powered DIY assistant. Snap a photo, get a step-by-step project plan with tools, materials, costs and safety guidance.">
+    <meta property="og:title" content="DIWAI — AI-Powered DIY Assistant">
+    <meta property="og:description" content="DIY... do it yourself... do it with AI... DIWAI. Your AI-powered DIY assistant.">
     <meta property="og:image" content="images/logo.png">
     <link rel="icon" type="image/png" href="images/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --blue: #1a56db;
-            --blue-light: #e8eefb;
-            --navy: #0f1b2d;
-            --gray: #6b7280;
-            --gray-light: #f7f8fa;
-            --text: #1d1d1f;
+            --deep-navy: #0B1020;
+            --graphite: #12161F;
+            --warm-orange: #FF7A00;
+            --electric-blue: #00B2FF;
+            --titanium: #E5E7EB;
+            --muted: #9CA3AF;
+            --card-bg: #161B26;
+            --card-border: #1F2937;
             --radius: 16px;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html { scroll-behavior: smooth; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--text); background: #fff; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: var(--titanium); background: var(--deep-navy); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
         /* NAV */
         nav {
             position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-            background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0,0,0,0.06);
+            background: rgba(11,16,32,0.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
         }
         nav .nav-inner {
             max-width: 1080px; margin: 0 auto; padding: 14px 24px;
             display: flex; align-items: center; justify-content: space-between;
         }
-        nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+        nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--titanium); }
         nav .logo-group img { width: 36px; height: 36px; border-radius: 8px; }
-        nav .logo-group span { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.02em; }
+        nav .logo-group .logo-text { font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em; }
+        nav .logo-group .logo-text .white { color: #FFFFFF; }
+        nav .logo-group .logo-text .orange { color: var(--warm-orange); }
         nav .nav-links { display: flex; gap: 28px; align-items: center; }
-        nav .nav-links a { text-decoration: none; color: var(--gray); font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
-        nav .nav-links a:hover { color: var(--text); }
-        nav .nav-links .cta-btn { background: var(--blue); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 600; transition: background 0.2s; }
-        nav .nav-links .cta-btn:hover { background: #1347b8; color: #fff; }
+        nav .nav-links a { text-decoration: none; color: var(--muted); font-size: 0.92rem; font-weight: 500; transition: color 0.2s; }
+        nav .nav-links a:hover { color: #FFFFFF; }
+        nav .nav-links .cta-btn { background: var(--warm-orange); color: #fff; padding: 8px 20px; border-radius: 20px; font-weight: 600; transition: background 0.2s; }
+        nav .nav-links .cta-btn:hover { background: #E56D00; color: #fff; }
 
         /* HERO */
         .hero {
             padding: 140px 24px 80px; text-align: center;
-            background: linear-gradient(180deg, var(--blue-light) 0%, #fff 100%);
+            background: radial-gradient(ellipse at 50% 40%, rgba(255,122,0,0.08) 0%, transparent 60%),
+                        radial-gradient(ellipse at 50% 100%, rgba(0,178,255,0.04) 0%, transparent 50%),
+                        var(--deep-navy);
         }
-        .hero img.hero-logo { width: 100px; height: 100px; border-radius: 22px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(26,86,219,0.15); }
-        .hero h1 { font-size: 3.2rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; color: var(--navy); }
-        .hero .strapline { font-size: 1.35rem; color: var(--gray); margin-bottom: 36px; font-weight: 400; }
-        .hero .subtitle { font-size: 1.1rem; color: var(--gray); max-width: 540px; margin: 0 auto 40px; line-height: 1.7; }
+        .hero img.hero-logo { width: 120px; height: 120px; border-radius: 28px; margin-bottom: 28px; box-shadow: 0 0 60px rgba(255,122,0,0.15), 0 20px 40px rgba(0,0,0,0.4); }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 8px; line-height: 1; }
+        .hero h1 .white { color: #FFFFFF; }
+        .hero h1 .orange { color: var(--warm-orange); }
+        .hero .strapline { font-size: 1.35rem; color: var(--muted); margin-bottom: 12px; font-weight: 500; }
+        .hero .motto { font-size: 1rem; color: var(--muted); font-style: italic; opacity: 0.7; margin-bottom: 36px; }
+        .hero .subtitle { font-size: 1.1rem; color: var(--muted); max-width: 540px; margin: 0 auto 40px; line-height: 1.7; }
         .hero .app-store-btn { display: inline-block; transition: transform 0.2s; }
         .hero .app-store-btn:hover { transform: scale(1.05); }
         .hero .app-store-btn img { height: 54px; }
 
         /* SCREENSHOTS */
-        .screenshots { padding: 60px 24px 80px; background: #fff; overflow: hidden; }
-        .screenshots h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.02em; }
+        .screenshots { padding: 60px 24px 80px; overflow: hidden; }
+        .screenshots h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 40px; letter-spacing: -0.02em; color: #FFFFFF; }
+        .screenshots h2 .orange { color: var(--warm-orange); }
         .screenshot-track {
             display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; max-width: 1100px; margin: 0 auto;
         }
         .screenshot-track img {
             width: 200px; border-radius: 24px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.1); transition: transform 0.3s;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.3); border: 1px solid var(--card-border); transition: transform 0.3s;
         }
         .screenshot-track img:hover { transform: translateY(-6px); }
 
         /* FEATURES */
-        .features { padding: 80px 24px; background: var(--gray-light); }
-        .features h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
-        .features .section-sub { text-align: center; color: var(--gray); margin-bottom: 48px; font-size: 1.05rem; }
+        .features { padding: 80px 24px; background: var(--graphite); }
+        .features h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; color: #FFFFFF; }
+        .features h2 .orange { color: var(--warm-orange); }
+        .features .section-sub { text-align: center; color: var(--muted); margin-bottom: 48px; font-size: 1.05rem; }
         .features-grid {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px; max-width: 960px; margin: 0 auto;
+            gap: 24px; max-width: 960px; margin: 0 auto;
         }
         .feature-card {
-            background: #fff; border-radius: var(--radius); padding: 32px 28px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 32px 28px;
+            transition: transform 0.2s, border-color 0.2s;
         }
+        .feature-card:hover { transform: translateY(-4px); border-color: var(--warm-orange); }
         .feature-card .icon { font-size: 1.8rem; margin-bottom: 12px; }
-        .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; }
-        .feature-card p { color: var(--gray); font-size: 0.95rem; line-height: 1.6; }
+        .feature-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 8px; color: #FFFFFF; }
+        .feature-card p { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
 
         /* HOW IT WORKS */
-        .how-it-works { padding: 80px 24px; background: #fff; }
-        .how-it-works h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 48px; letter-spacing: -0.02em; }
+        .how-it-works { padding: 80px 24px; }
+        .how-it-works h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 48px; letter-spacing: -0.02em; color: #FFFFFF; }
         .steps-row { display: flex; gap: 32px; max-width: 860px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
         .step { flex: 1; min-width: 220px; text-align: center; padding: 0 12px; }
         .step .step-num {
-            width: 48px; height: 48px; border-radius: 50%; background: var(--blue); color: #fff;
+            width: 48px; height: 48px; border-radius: 50%; background: var(--warm-orange); color: #fff;
             display: inline-flex; align-items: center; justify-content: center;
             font-weight: 700; font-size: 1.2rem; margin-bottom: 16px;
         }
-        .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; }
-        .step p { color: var(--gray); font-size: 0.92rem; }
+        .step h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 8px; color: #FFFFFF; }
+        .step p { color: var(--muted); font-size: 0.92rem; }
 
         /* PRICING */
-        .pricing { padding: 80px 24px; background: var(--gray-light); }
-        .pricing h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; }
-        .pricing .section-sub { text-align: center; color: var(--gray); margin-bottom: 48px; font-size: 1.05rem; }
+        .pricing { padding: 80px 24px; background: var(--graphite); }
+        .pricing h2 { text-align: center; font-size: 2rem; font-weight: 700; margin-bottom: 12px; letter-spacing: -0.02em; color: #FFFFFF; }
+        .pricing .section-sub { text-align: center; color: var(--muted); margin-bottom: 48px; font-size: 1.05rem; }
         .pricing-grid { display: flex; gap: 28px; max-width: 720px; margin: 0 auto; flex-wrap: wrap; justify-content: center; }
         .price-card {
-            flex: 1; min-width: 280px; max-width: 340px; background: #fff; border-radius: var(--radius); padding: 36px 32px;
-            box-shadow: 0 1px 4px rgba(0,0,0,0.04); text-align: center; position: relative;
+            flex: 1; min-width: 280px; max-width: 340px; background: var(--card-bg); border: 1px solid var(--card-border);
+            border-radius: var(--radius); padding: 36px 32px; text-align: center; position: relative;
         }
-        .price-card.featured { border: 2px solid var(--blue); }
+        .price-card.featured { border: 2px solid var(--warm-orange); }
         .price-card .badge {
             position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
-            background: var(--blue); color: #fff; font-size: 0.75rem; font-weight: 700;
+            background: var(--warm-orange); color: #fff; font-size: 0.75rem; font-weight: 700;
             padding: 4px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.04em;
         }
-        .price-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; }
-        .price-card .price { font-size: 2.4rem; font-weight: 800; color: var(--navy); margin-bottom: 4px; }
-        .price-card .price-period { color: var(--gray); font-size: 0.9rem; margin-bottom: 24px; }
+        .price-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: #FFFFFF; }
+        .price-card .price { font-size: 2.4rem; font-weight: 800; color: var(--warm-orange); margin-bottom: 4px; }
+        .price-card .price-period { color: var(--muted); font-size: 0.9rem; margin-bottom: 24px; }
         .price-card ul { list-style: none; text-align: left; margin-bottom: 28px; }
-        .price-card ul li { padding: 6px 0; font-size: 0.95rem; color: #374151; }
-        .price-card ul li::before { content: "\2713"; color: var(--blue); font-weight: 700; margin-right: 10px; }
+        .price-card ul li { padding: 6px 0; font-size: 0.95rem; color: var(--titanium); }
+        .price-card ul li::before { content: "\2713"; color: var(--warm-orange); font-weight: 700; margin-right: 10px; }
         .price-card .plan-btn {
             display: inline-block; width: 100%; padding: 12px; border-radius: 10px; font-weight: 600;
             text-decoration: none; font-size: 1rem; transition: background 0.2s;
         }
-        .price-card .plan-btn.outline { background: var(--blue-light); color: var(--blue); }
-        .price-card .plan-btn.outline:hover { background: #d6e0f7; }
-        .price-card .plan-btn.solid { background: var(--blue); color: #fff; }
-        .price-card .plan-btn.solid:hover { background: #1347b8; }
+        .price-card .plan-btn.solid { background: var(--warm-orange); color: #fff; }
+        .price-card .plan-btn.solid:hover { background: #E56D00; }
 
         /* CTA */
-        .cta-section { padding: 80px 24px; text-align: center; background: var(--navy); color: #fff; }
-        .cta-section h2 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; }
-        .cta-section p { color: #94a3b8; margin-bottom: 32px; font-size: 1.05rem; }
+        .cta-section { padding: 80px 24px; text-align: center; background: var(--deep-navy); border-top: 1px solid var(--card-border); }
+        .cta-section h2 { font-size: 2rem; font-weight: 700; margin-bottom: 12px; color: #FFFFFF; }
+        .cta-section p { color: var(--muted); margin-bottom: 32px; font-size: 1.05rem; }
         .cta-section .app-store-btn img { height: 54px; }
         .cta-section .app-store-btn { transition: transform 0.2s; display: inline-block; }
         .cta-section .app-store-btn:hover { transform: scale(1.05); }
 
         /* FOOTER */
-        footer { padding: 32px 24px; text-align: center; color: #86868b; font-size: 0.85rem; background: var(--navy); border-top: 1px solid rgba(255,255,255,0.06); }
-        footer a { color: #94a3b8; text-decoration: none; margin: 0 12px; }
-        footer a:hover { color: #fff; }
+        footer { padding: 32px 24px; text-align: center; color: var(--muted); font-size: 0.85rem; background: var(--deep-navy); border-top: 1px solid var(--card-border); }
+        footer a { color: var(--muted); text-decoration: none; margin: 0 12px; transition: color 0.2s; }
+        footer a:hover { color: var(--warm-orange); }
         footer .footer-links { margin-bottom: 12px; }
+        footer .footer-brand .white { color: #FFFFFF; }
+        footer .footer-brand .orange { color: var(--warm-orange); }
 
         /* RESPONSIVE */
         @media (max-width: 640px) {
-            .hero h1 { font-size: 2.2rem; }
+            .hero h1 { font-size: 2.4rem; }
             .hero .strapline { font-size: 1.1rem; }
+            .hero img.hero-logo { width: 90px; height: 90px; border-radius: 22px; }
             .screenshot-track img { width: 150px; }
             nav .nav-links a:not(.cta-btn) { display: none; }
         }
@@ -156,7 +172,7 @@
     <div class="nav-inner">
         <a href="#" class="logo-group">
             <img src="images/logo.png" alt="DIWAI logo">
-            <span>DIWAI</span>
+            <span class="logo-text"><span class="white">DIW</span><span class="orange">AI</span></span>
         </a>
         <div class="nav-links">
             <a href="#features">Features</a>
@@ -170,9 +186,10 @@
 <!-- HERO -->
 <section class="hero">
     <img src="images/logo.png" alt="DIWAI app icon" class="hero-logo">
-    <h1>DIWAI</h1>
-    <p class="strapline">Smarter DIY. Do It With AI.</p>
-    <p class="subtitle">Your AI-powered DIY copilot. Snap a photo of anything in your home and get a complete project plan with step-by-step instructions, tools, materials, costs and safety guidance.</p>
+    <h1><span class="white">DIW</span><span class="orange">AI</span></h1>
+    <p class="strapline">AI-Powered DIY Assistant</p>
+    <p class="motto">DIY... do it yourself... do it with AI... DIWAI</p>
+    <p class="subtitle">Your AI-powered DIY assistant. Snap a photo of anything in your home and get a complete project plan with step-by-step instructions, tools, materials, costs and safety guidance.</p>
     <a href="#download" class="app-store-btn">
         <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
     </a>
@@ -180,7 +197,7 @@
 
 <!-- SCREENSHOTS -->
 <section class="screenshots">
-    <h2>See It in Action</h2>
+    <h2>See It In <span class="orange">Action</span></h2>
     <div class="screenshot-track">
         <img src="images/screenshots/camera.png" alt="Camera view — point at what needs fixing">
         <img src="images/screenshots/plan.png" alt="Plan a project — describe or photograph your DIY task">
@@ -192,7 +209,7 @@
 
 <!-- FEATURES -->
 <section class="features" id="features">
-    <h2>Your DIY Copilot</h2>
+    <h2>Your DIY <span class="orange">Copilot</span></h2>
     <p class="section-sub">Everything you need to tackle any project with confidence.</p>
     <div class="features-grid">
         <div class="feature-card">
@@ -208,17 +225,17 @@
         <div class="feature-card">
             <div class="icon">&#128220;</div>
             <h3>Step-by-Step Instructions</h3>
-            <p>Clear, numbered steps with time estimates and images. Follow along at your own pace and mark each step as complete.</p>
+            <p>Clear, numbered steps with time estimates and AI-generated images. Follow along at your own pace and mark each step as complete.</p>
         </div>
         <div class="feature-card">
             <div class="icon">&#9888;&#65039;</div>
             <h3>Safety Guidance</h3>
-            <p>PPE recommendations, hazard warnings, and pro tips for every step. DIWAI keeps you safe while you work.</p>
+            <p>PPE recommendations, hazard warnings, and pro tips for every step. DIWAI keeps you safe with regulatory compliance checks.</p>
         </div>
         <div class="feature-card">
-            <div class="icon">&#128176;</div>
-            <h3>Cost Estimates</h3>
-            <p>Know what you'll spend before you start. DIWAI estimates material costs localised to your region, so you can budget with confidence.</p>
+            <div class="icon">&#127979;</div>
+            <h3>Nearby Stores</h3>
+            <p>Browse 17 categories of DIY businesses nearby — hardware stores, builders merchants, tool hire, garden centres, and more with configurable search radius.</p>
         </div>
         <div class="feature-card">
             <div class="icon">&#127908;</div>
@@ -267,6 +284,7 @@
                 <li>Tools &amp; materials lists</li>
                 <li>Cost estimates &amp; safety guidance</li>
                 <li>Voice control hands-free mode</li>
+                <li>Nearby store finder</li>
                 <li>Project history &amp; bookmarks</li>
             </ul>
             <a href="#download" class="plan-btn solid">Start Free Trial</a>
@@ -277,7 +295,7 @@
 <!-- CTA -->
 <section class="cta-section" id="download">
     <h2>Ready to start your next project?</h2>
-    <p>Download DIWAI and let AI be your DIY copilot.</p>
+    <p>Download DIWAI and let AI be your DIY assistant.</p>
     <a href="#" class="app-store-btn">
         <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
     </a>
@@ -290,7 +308,7 @@
         <a href="support.html">Support</a>
         <a href="mailto:support@diwai.app">Contact</a>
     </div>
-    &copy; 2025 DIWAI. All rights reserved.
+    <span class="footer-brand"><span class="white">DIW</span><span class="orange">AI</span></span> &mdash; AI-Powered DIY Assistant &copy; 2025
 </footer>
 
 </body>
