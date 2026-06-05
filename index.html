@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="images/logo.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Nunito:wght@900&display=swap" rel="stylesheet">
     <style>
         :root {
             --deep-navy: #0B1020;
@@ -60,7 +60,7 @@
         }
         nav .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; }
         nav .logo-group img { width: 36px; height: 36px; border-radius: 10px; }
-        nav .logo-group .logo-text { font-weight: 800; font-size: 1.15rem; letter-spacing: -0.02em; }
+        nav .logo-group .logo-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.2rem; letter-spacing: 0.01em; }
         nav .logo-group .logo-text .white { color: #FFF; }
         nav .logo-group .logo-text .orange { color: var(--warm-orange); }
         nav .nav-links { display: flex; gap: 28px; align-items: center; }
@@ -100,7 +100,7 @@
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .hero h1 { font-size: clamp(2.8rem, 8vw, 4.5rem); font-weight: 900; letter-spacing: -0.04em; line-height: 1; margin-bottom: 16px; }
+        .hero h1 { font-family: 'Nunito', sans-serif; font-size: clamp(3rem, 9vw, 5rem); font-weight: 900; letter-spacing: 0.02em; line-height: 1; margin-bottom: 16px; }
         .hero h1 .white { color: #FFF; }
         .hero h1 .orange { color: var(--warm-orange); }
         .hero .strapline { font-size: clamp(1.1rem, 3vw, 1.4rem); color: var(--muted); margin-bottom: 8px; font-weight: 500; }
@@ -305,6 +305,7 @@
         footer a { color: var(--muted); text-decoration: none; margin: 0 14px; transition: color 0.2s; }
         footer a:hover { color: var(--warm-orange); }
         footer .footer-links { margin-bottom: 14px; }
+        footer .footer-brand { font-family: 'Nunito', sans-serif; font-weight: 900; letter-spacing: 0.01em; }
         footer .footer-brand .white { color: #FFF; }
         footer .footer-brand .orange { color: var(--warm-orange); }
 
