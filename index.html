@@ -610,20 +610,58 @@ window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 60);
 }, { passive: true });
 
-// Auto-scroll carousel hint (gentle nudge)
+// Auto-scroll carousel
 const carousel = document.querySelector('.phone-carousel');
 if (carousel) {
-    let nudged = false;
-    const nudgeObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && !nudged) {
-            nudged = true;
-            setTimeout(() => {
-                carousel.scrollTo({ left: 80, behavior: 'smooth' });
-                setTimeout(() => carousel.scrollTo({ left: 0, behavior: 'smooth' }), 600);
-            }, 800);
+    let autoScrollInterval = null;
+    let isPaused = false;
+    let scrollSpeed = 1; // pixels per frame
+
+    function startAutoScroll() {
+        if (autoScrollInterval) return;
+        autoScrollInterval = setInterval(() => {
+            if (isPaused) return;
+            carousel.scrollLeft += scrollSpeed;
+            // Loop back when reaching the end
+            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 2) {
+                // Smoothly reset to start
+                carousel.style.scrollBehavior = 'auto';
+                carousel.scrollLeft = 0;
+                carousel.style.scrollBehavior = '';
+            }
+        }, 20);
+    }
+
+    function stopAutoScroll() {
+        isPaused = true;
+    }
+
+    function resumeAutoScroll() {
+        isPaused = false;
+    }
+
+    // Pause on user interaction
+    carousel.addEventListener('mouseenter', stopAutoScroll);
+    carousel.addEventListener('mouseleave', () => setTimeout(resumeAutoScroll, 1000));
+    carousel.addEventListener('touchstart', stopAutoScroll, { passive: true });
+    carousel.addEventListener('touchend', () => setTimeout(resumeAutoScroll, 2000));
+    // Pause if user manually scrolls
+    let scrollTimeout;
+    carousel.addEventListener('scroll', () => {
+        stopAutoScroll();
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(resumeAutoScroll, 3000);
+    }, { passive: true });
+
+    // Start when carousel becomes visible
+    const carouselObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+            startAutoScroll();
+        } else {
+            stopAutoScroll();
         }
-    }, { threshold: 0.5 });
-    nudgeObserver.observe(carousel);
+    }, { threshold: 0.3 });
+    carouselObserver.observe(carousel);
 }
 </script>
 
