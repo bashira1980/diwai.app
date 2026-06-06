@@ -3,49 +3,431 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Support — DIWAI</title>
+    <title>Support &amp; FAQ &#8212; DIWAI</title>
+    <meta name="description" content="Get help with DIWAI, your AI-powered DIY assistant. Browse FAQs or contact support.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --deep-navy: #0B1020;
+            --graphite: #0F1523;
+            --warm-orange: #FF7A00;
+            --warm-orange-hover: #E56D00;
+            --titanium: #E5E7EB;
+            --muted: #9CA3AF;
+            --card-bg: rgba(22,27,38,0.6);
+            --card-border: rgba(255,255,255,0.06);
+            --radius: 20px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1d1d1f; background: #fff; line-height: 1.7; }
-        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
-        h1 { font-size: 1.8rem; margin-bottom: 24px; }
-        h2 { font-size: 1.2rem; margin-top: 32px; margin-bottom: 8px; }
-        p { margin-bottom: 16px; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        .contact-box { background: #f5f5f7; border-radius: 12px; padding: 24px; margin-top: 24px; }
-        .contact-box p { margin-bottom: 8px; }
-        .contact-box p:last-child { margin-bottom: 0; }
-        footer { margin-top: 48px; color: #86868b; font-size: 0.85rem; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--titanium);
+            background: var(--deep-navy);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Header */
+        header {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(11,16,32,0.92);
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header-inner {
+            max-width: 900px; margin: 0 auto; padding: 14px 24px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .logo-group { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+        .logo-group img { width: 36px; height: 36px; border-radius: 10px; }
+        .logo-text { font-family: 'Nunito', sans-serif; font-weight: 900; font-size: 1.2rem; }
+        .logo-text .white { color: #FFF; }
+        .logo-text .orange { color: var(--warm-orange); }
+        .back-link { color: var(--muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.2s; }
+        .back-link:hover { color: var(--warm-orange); }
+
+        /* Hero */
+        .hero {
+            padding: 80px 24px 48px; text-align: center; position: relative; overflow: hidden;
+        }
+        .hero::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,122,0,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 2.8rem); font-weight: 800; color: #FFF;
+            letter-spacing: -0.02em; margin-bottom: 12px; position: relative;
+        }
+        .hero h1 .orange { color: var(--warm-orange); }
+        .hero p { color: var(--muted); font-size: 1.05rem; position: relative; max-width: 500px; margin: 0 auto; }
+
+        /* Contact card */
+        .contact-card {
+            max-width: 900px; margin: 0 auto 56px; padding: 0 24px;
+        }
+        .contact-inner {
+            background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border); border-radius: var(--radius);
+            padding: 32px; text-align: center; position: relative; overflow: hidden;
+        }
+        .contact-inner::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 60% 80% at 50% 0%, rgba(255,122,0,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .contact-icon { font-size: 2rem; margin-bottom: 12px; position: relative; }
+        .contact-inner h2 { font-size: 1.2rem; font-weight: 700; color: #FFF; margin-bottom: 8px; position: relative; }
+        .contact-inner p { color: var(--muted); font-size: 0.95rem; margin-bottom: 16px; position: relative; }
+        .contact-email {
+            display: inline-flex; align-items: center; gap: 8px;
+            color: var(--warm-orange); text-decoration: none; font-weight: 600; font-size: 1.05rem;
+            padding: 10px 24px; border-radius: 12px;
+            background: rgba(255,122,0,0.1); border: 1px solid rgba(255,122,0,0.2);
+            transition: all 0.25s; position: relative;
+        }
+        .contact-email:hover { background: rgba(255,122,0,0.18); border-color: rgba(255,122,0,0.35); transform: translateY(-1px); }
+
+        /* FAQ */
+        .faq-wrapper { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+        .faq-category { margin-bottom: 36px; }
+        .cat-title {
+            font-size: 1.1rem; font-weight: 700; color: var(--warm-orange);
+            margin-bottom: 16px; padding-left: 4px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .cat-icon { font-size: 1.15rem; }
+
+        /* Accordion */
+        .accordion-item {
+            background: var(--card-bg); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--card-border); border-radius: 14px;
+            margin-bottom: 10px; overflow: hidden; transition: border-color 0.3s;
+        }
+        .accordion-item:hover { border-color: rgba(255,255,255,0.1); }
+        .accordion-item.active { border-color: rgba(255,122,0,0.2); }
+        .accordion-trigger {
+            width: 100%; background: none; border: none;
+            color: var(--titanium); font-family: inherit; font-size: 0.95rem; font-weight: 600;
+            text-align: left; padding: 18px 20px; cursor: pointer;
+            display: flex; align-items: center; justify-content: space-between; gap: 16px;
+            transition: color 0.2s;
+        }
+        .accordion-trigger:hover { color: #FFF; }
+        .accordion-item.active .accordion-trigger { color: #FFF; }
+        .chevron {
+            width: 20px; height: 20px; flex-shrink: 0;
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); color: var(--muted);
+        }
+        .accordion-item.active .chevron { transform: rotate(180deg); color: var(--warm-orange); }
+        .accordion-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1); }
+        .accordion-item.active .accordion-body { max-height: 400px; }
+        .accordion-content {
+            padding: 0 20px 20px; color: var(--muted); font-size: 0.92rem; line-height: 1.7;
+        }
+        .accordion-content a { color: var(--warm-orange); text-decoration: underline; }
+        .accordion-content strong { color: var(--titanium); font-weight: 600; }
+
+        /* Still need help */
+        .help-card {
+            max-width: 900px; margin: 0 auto; padding: 0 24px 80px;
+        }
+        .help-inner {
+            background: var(--card-bg); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--card-border); border-radius: var(--radius);
+            padding: 40px 32px; text-align: center; position: relative; overflow: hidden;
+        }
+        .help-inner::before {
+            content: ''; position: absolute; inset: 0;
+            background: radial-gradient(ellipse 70% 60% at 50% 100%, rgba(255,122,0,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .help-inner h2 { font-size: 1.3rem; font-weight: 700; color: #FFF; margin-bottom: 8px; position: relative; }
+        .help-inner p { color: var(--muted); font-size: 0.95rem; margin-bottom: 20px; max-width: 420px; margin-left: auto; margin-right: auto; position: relative; }
+        .help-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--warm-orange); color: #FFF; text-decoration: none;
+            padding: 12px 28px; border-radius: 12px; font-weight: 600; font-size: 0.95rem;
+            transition: all 0.25s; position: relative;
+        }
+        .help-btn:hover { background: var(--warm-orange-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255,122,0,0.3); }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid rgba(255,255,255,0.05); padding: 32px 24px; text-align: center;
+        }
+        .footer-links { margin-bottom: 14px; }
+        .footer-links a { color: var(--muted); text-decoration: none; margin: 0 14px; font-size: 0.88rem; font-weight: 500; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--warm-orange); }
+        .footer-brand { font-family: 'Nunito', sans-serif; font-weight: 900; }
+        .footer-brand .white { color: #FFF; }
+        .footer-brand .orange { color: var(--warm-orange); }
+        .footer-copy { color: var(--muted); font-size: 0.82rem; opacity: 0.6; }
+
+        @media (max-width: 640px) {
+            .hero { padding: 60px 20px 36px; }
+            .accordion-trigger { font-size: 0.9rem; padding: 16px; }
+            .accordion-content { padding: 0 16px 16px; font-size: 0.88rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Support</h1>
 
-        <p>Need help with DIWAI? We're here for you.</p>
+<header>
+    <div class="header-inner">
+        <a href="index.html" class="logo-group">
+            <img src="images/logo.png" alt="DIWAI">
+            <span class="logo-text"><span class="white">DIW</span><span class="orange">AI</span></span>
+        </a>
+        <a href="index.html" class="back-link">&larr; Back to Home</a>
+    </div>
+</header>
 
-        <h2>Frequently Asked Questions</h2>
+<section class="hero">
+    <h1>Support <span class="orange">&amp;</span> FAQ</h1>
+    <p>Find answers to common questions or get in touch with our team.</p>
+</section>
 
-        <h2>How does DIWAI work?</h2>
-        <p>Take a photo of a space or item you want to improve. DIWAI uses AI to analyze your image and generate step-by-step DIY project instructions, material lists, and guidance tailored to your skill level.</p>
+<div class="contact-card">
+    <div class="contact-inner">
+        <div class="contact-icon">&#9993;&#65039;</div>
+        <h2>Contact Us</h2>
+        <p>Have a question not covered below? We're here to help.</p>
+        <a href="mailto:support@diwai.app" class="contact-email">&#9993; support@diwai.app</a>
+    </div>
+</div>
 
-        <h2>Is my data safe?</h2>
-        <p>Yes. All communication is encrypted via HTTPS. Your photos are processed by AI to generate project plans and are not shared publicly. See our <a href="/privacy.html">Privacy Policy</a> for full details.</p>
+<div class="faq-wrapper">
 
-        <h2>Which sign-in methods are supported?</h2>
-        <p>You can sign in with your Apple ID or Google account.</p>
+    <!-- Getting Started -->
+    <div class="faq-category">
+        <h2 class="cat-title"><span class="cat-icon">&#128640;</span> Getting Started</h2>
 
-        <h2>Can I delete my account?</h2>
-        <p>Yes. Contact us at the email below and we will delete your account and all associated data.</p>
-
-        <div class="contact-box">
-            <p><strong>Contact Us</strong></p>
-            <p>Email: <a href="mailto:support@diwai.app">support@diwai.app</a></p>
-            <p>We aim to respond within 48 hours.</p>
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>What is DIWAI?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">DIWAI stands for <strong>Do It With AI</strong>. It's an AI-powered DIY assistant that helps you fix, plan, and design home improvement projects. Simply snap a photo or describe what you need, and DIWAI generates step-by-step plans with tools, materials, estimated costs, and safety guidance.</div></div>
         </div>
 
-        <footer><a href="/">&larr; Back to DIWAI</a></footer>
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How do I create my first project?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Go to the <strong>Projects</strong> tab, describe your project or pick one of the suggested ideas (like "Tile bathroom wall" or "Fix leaking tap"), then tap <strong>Generate Plan</strong>. DIWAI will create a detailed project plan with steps, tools, materials, and estimated costs within seconds.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>What do the camera modes do?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">DIWAI offers three camera modes:<br><br><strong>Fix</strong> &#8212; Diagnose issues by photographing the problem. AI identifies what's wrong and creates a repair plan.<br><strong>Plan</strong> &#8212; Create full project plans from photos of spaces or items you want to improve.<br><strong>Design</strong> &#8212; AI room redesign that generates three design concepts with before &amp; after mockups. <em>Premium only.</em></div></div>
+        </div>
     </div>
+
+    <!-- Subscriptions & Billing -->
+    <div class="faq-category">
+        <h2 class="cat-title"><span class="cat-icon">&#128179;</span> Subscriptions &amp; Billing</h2>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>What's included in the Free plan?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">The Free plan includes 1 project per month, basic AI analysis of your photos, and access to the nearby store finder to locate DIY shops in your area.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>What's included in Pro (&#163;4.99/mo)?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Pro gives you full access to AI Fix &amp; Plan camera modes, unlimited projects, detailed shopping lists with estimated prices from major UK retailers, voice control for hands-free step execution, and comprehensive safety guidance.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>What's included in Premium (&#163;9.99/mo)?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Premium includes everything in Pro, plus <strong>AI Design Mode</strong> for full room redesign concepts, before &amp; after comparison mockups, priority AI processing for faster results, and early access to new features.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How do I cancel my subscription?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Open your iPhone <strong>Settings</strong> &gt; tap your <strong>Apple ID</strong> at the top &gt; <strong>Subscriptions</strong> &gt; select <strong>DIWAI</strong> &gt; tap <strong>Cancel Subscription</strong>. You'll retain access until the end of your current billing period.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>Is there a free trial?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Yes! Both Pro and Premium offer a <strong>7-day free trial</strong>. You won't be charged during the trial period, and you can cancel anytime before it ends.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How do I restore my purchase on a new device?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Open DIWAI, go to your <strong>Profile</strong>, tap the subscription section, then tap <strong>Restore Purchases</strong>. Make sure you're signed in with the same Apple ID used for the original purchase.</div></div>
+        </div>
+    </div>
+
+    <!-- Features -->
+    <div class="faq-category">
+        <h2 class="cat-title"><span class="cat-icon">&#9889;</span> Features</h2>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How does AI Design Mode work?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Take a photo of your room, and DIWAI generates three unique design concepts complete with before &amp; after mockup images. Select your favourite concept and the app creates a full project plan with steps, materials, and costs to bring that design to life.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How accurate are the shopping lists?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">The AI estimates prices based on major UK retailers such as B&amp;Q, Screwfix, Wickes, and others. Prices are approximate and may vary depending on your location, availability, and market conditions. We recommend checking with your local store for exact pricing.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>Can I use voice commands?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Yes! Tap the microphone icon during step execution for hands-free control. This is perfect for when your hands are busy with tools or materials. Voice control is available on Pro and Premium plans.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How does the nearby stores feature work?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">DIWAI uses your location to find nearby DIY stores, builders merchants, tool hire shops, and specialist suppliers within your chosen distance. You can browse categories, compare prices, and get directions to plan your shopping trip.</div></div>
+        </div>
+    </div>
+
+    <!-- Account & Privacy -->
+    <div class="faq-category">
+        <h2 class="cat-title"><span class="cat-icon">&#128274;</span> Account &amp; Privacy</h2>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>How do I delete my account?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Go to <strong>Profile</strong> &gt; <strong>Delete Account</strong>. This permanently removes all your data including projects, photos, and account information. This action cannot be undone.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>What data does DIWAI collect?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">DIWAI collects camera photos (used for AI analysis, not stored permanently on servers), location data (for the store finder), and basic account information. We do not track you for advertising. For full details, see our <a href="privacy.html">Privacy Policy</a>.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>Can I sign in with Google?</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Yes, Google Sign-In is fully supported. You can also create an account with email and password. Both options are available on the sign-in screen.</div></div>
+        </div>
+    </div>
+
+    <!-- Troubleshooting -->
+    <div class="faq-category">
+        <h2 class="cat-title"><span class="cat-icon">&#128295;</span> Troubleshooting</h2>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>The app says "Products not found"</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">This usually means the app couldn't connect to the App Store. Ensure you have a stable internet connection and try restarting the app. If the issue persists, check that you're signed into your Apple ID in Settings.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>AI analysis is taking too long</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Design Mode can take up to 90 seconds as it generates custom AI mockup images for your room. Make sure you're on a stable WiFi connection. Fix and Plan modes are typically much faster (10-30 seconds). If analysis consistently fails, try restarting the app.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>Camera permission denied</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Go to your iPhone <strong>Settings</strong> &gt; scroll down to <strong>DIWAI</strong> &gt; toggle <strong>Camera</strong> on. You may need to restart the app after granting permission.</div></div>
+        </div>
+
+        <div class="accordion-item">
+            <button class="accordion-trigger" aria-expanded="false">
+                <span>I can't see the Design option</span>
+                <svg class="chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+            </button>
+            <div class="accordion-body"><div class="accordion-content">Design Mode is an exclusive feature that requires a <strong>Premium subscription</strong> (&#163;9.99/mo). The Design option appears in the camera mode selector for all users, but generating designs requires Premium. Upgrade from the Profile tab or the subscription paywall.</div></div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Still need help -->
+<div class="help-card">
+    <div class="help-inner">
+        <h2>Still need help?</h2>
+        <p>Can't find what you're looking for? Our support team typically responds within 24 hours.</p>
+        <a href="mailto:support@diwai.app" class="help-btn">&#9993; Email Support</a>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="mailto:support@diwai.app">Contact</a>
+    </div>
+    <p class="footer-copy"><span class="footer-brand"><span class="white">DIW</span><span class="orange">AI</span></span> &mdash; Do It Yourself. Do It With AI. &copy; 2026</p>
+</footer>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.accordion-item').forEach(function(item) {
+        item.querySelector('.accordion-trigger').addEventListener('click', function() {
+            var isActive = item.classList.contains('active');
+            var category = item.closest('.faq-category');
+            category.querySelectorAll('.accordion-item').forEach(function(s) {
+                s.classList.remove('active');
+                s.querySelector('.accordion-trigger').setAttribute('aria-expanded', 'false');
+            });
+            if (!isActive) {
+                item.classList.add('active');
+                this.setAttribute('aria-expanded', 'true');
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>

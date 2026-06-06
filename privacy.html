@@ -3,74 +3,489 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy Policy — DIWAI</title>
+    <title>Privacy Policy &#8212; DIWAI</title>
+    <meta name="description" content="DIWAI Privacy Policy. Learn how we collect, use, and protect your data.">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Nunito:wght@900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --deep-navy: #0B1020;
+            --graphite: #0F1523;
+            --warm-orange: #FF7A00;
+            --electric-blue: #00B2FF;
+            --titanium: #E5E7EB;
+            --muted: #9CA3AF;
+            --card-bg: rgba(22,27,38,0.6);
+            --card-border: rgba(255,255,255,0.06);
+            --radius: 20px;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #1d1d1f; background: #fff; line-height: 1.7; }
-        .container { max-width: 640px; margin: 0 auto; padding: 60px 24px; }
-        h1 { font-size: 1.8rem; margin-bottom: 8px; }
-        p.date { color: #86868b; margin-bottom: 32px; font-size: 0.9rem; }
-        h2 { font-size: 1.2rem; margin-top: 32px; margin-bottom: 8px; }
-        p, ul { margin-bottom: 16px; }
-        ul { padding-left: 24px; }
-        a { color: #0066cc; text-decoration: none; }
-        a:hover { text-decoration: underline; }
-        footer { margin-top: 48px; color: #86868b; font-size: 0.85rem; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--titanium);
+            background: var(--deep-navy);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11,16,32,0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        header .header-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        header .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        header .logo-group img {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+        }
+        header .logo-group .logo-text {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 0.01em;
+        }
+        header .logo-group .logo-text .white { color: #FFF; }
+        header .logo-group .logo-text .orange { color: var(--warm-orange); }
+        header .back-link {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        header .back-link:hover { color: var(--warm-orange); }
+        .policy-hero {
+            padding: 80px 24px 48px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .policy-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,122,0,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .policy-hero h1 {
+            font-family: 'Inter', sans-serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 800;
+            color: #FFF;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .policy-hero .updated {
+            color: var(--muted);
+            font-size: 0.92rem;
+            position: relative;
+        }
+        .toc {
+            max-width: 900px;
+            margin: 0 auto 48px;
+            padding: 0 24px;
+        }
+        .toc-inner {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--radius);
+            padding: 28px 32px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        .toc h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--warm-orange);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 16px;
+        }
+        .toc ol {
+            list-style: none;
+            counter-reset: toc-counter;
+            columns: 2;
+            column-gap: 32px;
+        }
+        .toc ol li {
+            counter-increment: toc-counter;
+            margin-bottom: 8px;
+        }
+        .toc ol li a {
+            color: var(--titanium);
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px;
+        }
+        .toc ol li a::before {
+            content: counter(toc-counter) ".";
+            color: var(--warm-orange);
+            font-weight: 700;
+            font-size: 0.85rem;
+            min-width: 20px;
+        }
+        .toc ol li a:hover { color: var(--warm-orange); }
+        .policy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+        .policy-section {
+            margin-bottom: 48px;
+        }
+        .policy-section h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #FFF;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            scroll-margin-top: 80px;
+        }
+        .policy-section h2 .section-num {
+            color: var(--warm-orange);
+            margin-right: 8px;
+        }
+        .policy-section h3 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: #FFF;
+            margin: 20px 0 8px;
+        }
+        .policy-section p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .policy-section ul {
+            list-style: none;
+            margin: 8px 0 16px;
+            padding: 0;
+        }
+        .policy-section ul li {
+            color: var(--muted);
+            font-size: 0.93rem;
+            padding: 5px 0 5px 24px;
+            position: relative;
+        }
+        .policy-section ul li::before {
+            content: "\2022";
+            color: var(--warm-orange);
+            font-weight: 700;
+            position: absolute;
+            left: 8px;
+        }
+        .policy-section a {
+            color: var(--warm-orange);
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+        .policy-section a:hover { opacity: 0.8; }
+        .policy-section strong {
+            color: var(--titanium);
+            font-weight: 600;
+        }
+        .highlight-box {
+            background: rgba(255,122,0,0.06);
+            border: 1px solid rgba(255,122,0,0.15);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin: 16px 0;
+        }
+        .highlight-box p {
+            color: var(--titanium);
+            font-size: 0.93rem;
+            margin-bottom: 0;
+        }
+        .highlight-box p + p {
+            margin-top: 6px;
+        }
+        footer {
+            padding: 36px 24px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 0.82rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        footer a {
+            color: var(--muted);
+            text-decoration: none;
+            margin: 0 14px;
+            transition: color 0.2s;
+        }
+        footer a:hover { color: var(--warm-orange); }
+        footer .footer-links { margin-bottom: 14px; }
+        footer .footer-brand {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            letter-spacing: 0.01em;
+        }
+        footer .footer-brand .white { color: #FFF; }
+        footer .footer-brand .orange { color: var(--warm-orange); }
+        @media (max-width: 640px) {
+            .policy-hero { padding: 60px 20px 36px; }
+            .toc ol { columns: 1; }
+            .toc-inner { padding: 24px 20px; }
+            .policy-content { padding: 0 20px 60px; }
+            .policy-section h2 { font-size: 1.2rem; }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Privacy Policy</h1>
-        <p class="date">Effective date: May 22, 2026</p>
 
-        <p>DIWAI ("we", "our", "the app") is committed to protecting your privacy. This policy explains what data we collect, how we use it, and your rights.</p>
-
-        <h2>1. Information We Collect</h2>
-        <p>We collect the following information when you use DIWAI:</p>
-        <ul>
-            <li><strong>Account information</strong> — name and email address, provided when you sign in with Apple or Google.</li>
-            <li><strong>Photos</strong> — images you upload for project analysis. These are sent to our server for AI processing and are not shared with third parties beyond the AI providers used to generate your results.</li>
-            <li><strong>Usage data</strong> — anonymous analytics such as features used, session duration, and crash reports to help us improve the app.</li>
-        </ul>
-
-        <h2>2. How We Use Your Data</h2>
-        <ul>
-            <li>To provide and improve the DIWAI service.</li>
-            <li>To process your DIY project images using AI (Google Gemini, OpenAI, or Anthropic Claude).</li>
-            <li>To authenticate your account and manage your sessions.</li>
-        </ul>
-
-        <h2>3. Third-Party Services</h2>
-        <p>We use the following third-party services to operate the app:</p>
-        <ul>
-            <li><strong>Google Gemini / OpenAI / Anthropic Claude</strong> — for AI-powered project analysis. Images and text you submit may be processed by these providers under their respective privacy policies.</li>
-            <li><strong>Apple Sign-In / Google Sign-In</strong> — for authentication.</li>
-        </ul>
-
-        <h2>4. Data Storage and Security</h2>
-        <p>Your data is stored on secure servers. All communication between the app and our servers is encrypted via HTTPS. AI API keys are stored only on our server and are never accessible to the app or end users.</p>
-
-        <h2>5. Data Retention</h2>
-        <p>We retain your account data for as long as your account is active. You can request deletion of your account and associated data at any time by contacting us.</p>
-
-        <h2>6. Your Rights</h2>
-        <p>You have the right to:</p>
-        <ul>
-            <li>Access the personal data we hold about you.</li>
-            <li>Request correction or deletion of your data.</li>
-            <li>Withdraw consent for data processing.</li>
-        </ul>
-
-        <h2>7. Children's Privacy</h2>
-        <p>DIWAI is not directed at children under 13. We do not knowingly collect data from children under 13.</p>
-
-        <h2>8. Changes to This Policy</h2>
-        <p>We may update this policy from time to time. Changes will be posted on this page with an updated effective date.</p>
-
-        <h2>9. Contact Us</h2>
-        <p>If you have questions about this privacy policy or your data, contact us at <a href="mailto:support@diwai.app">support@diwai.app</a>.</p>
-
-        <footer><a href="/">&larr; Back to DIWAI</a></footer>
+<header>
+    <div class="header-inner">
+        <a href="index.html" class="logo-group">
+            <img src="images/logo.png" alt="DIWAI">
+            <span class="logo-text"><span class="white">DIW</span><span class="orange">AI</span></span>
+        </a>
+        <a href="index.html" class="back-link">&larr; Back to Home</a>
     </div>
+</header>
+
+<section class="policy-hero">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: June 6, 2026</p>
+</section>
+
+<nav class="toc">
+    <div class="toc-inner">
+        <h2>Contents</h2>
+        <ol>
+            <li><a href="#introduction">Introduction</a></li>
+            <li><a href="#data-we-collect">Data We Collect</a></li>
+            <li><a href="#camera-photos">Camera &amp; Photo Usage</a></li>
+            <li><a href="#location-data">Location Data</a></li>
+            <li><a href="#speech-recognition">Speech Recognition</a></li>
+            <li><a href="#account-data">Account Data &amp; Authentication</a></li>
+            <li><a href="#analytics">Analytics &amp; Diagnostics</a></li>
+            <li><a href="#third-party">Third-Party Services</a></li>
+            <li><a href="#data-retention">Data Retention</a></li>
+            <li><a href="#data-security">Data Security</a></li>
+            <li><a href="#children">Children&rsquo;s Privacy</a></li>
+            <li><a href="#user-rights">Your Rights (GDPR &amp; CCPA)</a></li>
+            <li><a href="#changes">Changes to This Policy</a></li>
+            <li><a href="#contact">Contact Us</a></li>
+        </ol>
+    </div>
+</nav>
+
+<main class="policy-content">
+
+    <section class="policy-section" id="introduction">
+        <h2><span class="section-num">1.</span> Introduction</h2>
+        <p>Welcome to DIWAI (&ldquo;we,&rdquo; &ldquo;our,&rdquo; or &ldquo;us&rdquo;). DIWAI is an AI-powered Do It Yourself assistant available on iOS. This Privacy Policy explains how we collect, use, store, and protect your personal information when you use the DIWAI mobile application and associated services (collectively, the &ldquo;Service&rdquo;).</p>
+        <p>By using DIWAI, you agree to the collection and use of information in accordance with this policy. If you do not agree with any part of this policy, please do not use the Service.</p>
+        <div class="highlight-box">
+            <p><strong>Key commitment:</strong> DIWAI does not collect sensitive health data or financial data, and we do not track users for advertising purposes.</p>
+        </div>
+    </section>
+
+    <section class="policy-section" id="data-we-collect">
+        <h2><span class="section-num">2.</span> Data We Collect</h2>
+        <p>We collect the minimum amount of data necessary to provide and improve the Service. The types of data we may collect include:</p>
+
+        <h3>Information You Provide</h3>
+        <ul>
+            <li><strong>Account information:</strong> email address, display name, and profile picture when you create an account or sign in via Google.</li>
+            <li><strong>Project data:</strong> text descriptions, photographs, and voice input you submit to generate DIY project plans.</li>
+            <li><strong>Subscription data:</strong> your subscription tier and status (payment processing is handled entirely by Apple; we do not receive or store payment card details).</li>
+            <li><strong>Support communications:</strong> messages and email content when you contact our support team.</li>
+        </ul>
+
+        <h3>Information Collected Automatically</h3>
+        <ul>
+            <li><strong>Device information:</strong> device model, operating system version, app version, and unique device identifiers.</li>
+            <li><strong>Usage data:</strong> features used, number of projects created, and interaction patterns (collected in aggregate).</li>
+            <li><strong>Crash and performance data:</strong> error logs and diagnostics to help us fix bugs and improve stability.</li>
+        </ul>
+
+        <h3>Information We Do NOT Collect</h3>
+        <ul>
+            <li>Health or medical data</li>
+            <li>Financial or payment card data (handled by Apple)</li>
+            <li>Advertising identifiers or cross-app tracking data</li>
+            <li>Contacts, calendars, or messages from your device</li>
+        </ul>
+    </section>
+
+    <section class="policy-section" id="camera-photos">
+        <h2><span class="section-num">3.</span> Camera &amp; Photo Usage</h2>
+        <p>DIWAI uses your device camera and photo library to enable core features:</p>
+        <ul>
+            <li><strong>Project analysis:</strong> you can take a photo or select one from your library so our AI can identify repair or renovation tasks and generate a project plan.</li>
+            <li><strong>AI Design Mode:</strong> room photos are used to generate AI-powered design concepts and visualisations.</li>
+        </ul>
+        <p>Photos are transmitted securely to our servers and to our AI processing partner (OpenAI) solely for the purpose of generating your project plan or design mockup. We do not use your photos for advertising, training public AI models, or any purpose unrelated to the Service.</p>
+        <p>Camera and photo library access requires your explicit permission via the iOS system prompt. You can revoke this permission at any time in your device Settings.</p>
+    </section>
+
+    <section class="policy-section" id="location-data">
+        <h2><span class="section-num">4.</span> Location Data</h2>
+        <p>DIWAI may request access to your device location to provide the following feature:</p>
+        <ul>
+            <li><strong>Nearby store finder:</strong> your location is used to find the nearest hardware and DIY stores (e.g., Wickes, B&amp;Q, Screwfix, Toolstation) and provide directions.</li>
+        </ul>
+        <p>Location data is used only when you actively use the store finder feature. We do not track your location in the background or store your location history on our servers. Location access requires your explicit iOS permission, which you can revoke at any time in Settings.</p>
+    </section>
+
+    <section class="policy-section" id="speech-recognition">
+        <h2><span class="section-num">5.</span> Speech Recognition</h2>
+        <p>DIWAI offers a hands-free voice control feature that uses speech recognition:</p>
+        <ul>
+            <li><strong>Voice commands:</strong> you can use voice input to describe projects, navigate steps, and control the app while your hands are busy.</li>
+            <li><strong>Processing:</strong> speech recognition is handled by Apple&rsquo;s on-device and server-based Speech framework. Audio data is processed in accordance with <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple&rsquo;s Privacy Policy</a>.</li>
+        </ul>
+        <p>We do not record, store, or transmit raw audio from your microphone. Only the transcribed text result is sent to our servers when needed to process your request. Microphone access requires your explicit iOS permission.</p>
+    </section>
+
+    <section class="policy-section" id="account-data">
+        <h2><span class="section-num">6.</span> Account Data &amp; Authentication</h2>
+        <p>You can create a DIWAI account using:</p>
+        <ul>
+            <li><strong>Email and password:</strong> your email address is stored securely. Passwords are hashed using industry-standard algorithms and are never stored in plaintext.</li>
+            <li><strong>Google Sign-In:</strong> if you choose to sign in with Google, we receive your name, email address, and profile picture from Google. We do not receive your Google password. Google Sign-In is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google&rsquo;s Privacy Policy</a>.</li>
+        </ul>
+        <p>Account data is used to personalise your experience, sync your projects across sessions, and manage your subscription status.</p>
+    </section>
+
+    <section class="policy-section" id="analytics">
+        <h2><span class="section-num">7.</span> Analytics &amp; Diagnostics</h2>
+        <p>We collect anonymised analytics and diagnostic data to understand how the app is used and to improve performance:</p>
+        <ul>
+            <li><strong>Usage analytics:</strong> feature usage frequency, session duration, and project completion rates (collected in aggregate, not linked to your identity).</li>
+            <li><strong>Crash reports:</strong> automatic crash logs help us identify and fix bugs. These may include device model, OS version, and stack traces, but do not contain personal content.</li>
+        </ul>
+        <p>We do not use analytics data for advertising purposes. We do not sell analytics data to third parties.</p>
+    </section>
+
+    <section class="policy-section" id="third-party">
+        <h2><span class="section-num">8.</span> Third-Party Services</h2>
+        <p>DIWAI integrates with the following third-party services to provide its features:</p>
+
+        <h3>OpenAI</h3>
+        <p>We use OpenAI&rsquo;s API to power DIWAI&rsquo;s AI features, including project plan generation, photo analysis, and AI Design Mode. When you use these features, your text descriptions and/or photos are sent to OpenAI for processing. OpenAI processes this data in accordance with their <a href="https://openai.com/policies/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a> and API data usage policies. Data sent via the API is not used by OpenAI to train their models.</p>
+
+        <h3>Google Sign-In</h3>
+        <p>If you use Google Sign-In, limited profile information is shared as described in Section 6. This integration is governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google&rsquo;s Privacy Policy</a>.</p>
+
+        <h3>Apple Services</h3>
+        <p>We use Apple&rsquo;s StoreKit for in-app subscriptions (Apple handles all payment processing) and Apple&rsquo;s Speech framework for voice recognition. These are governed by <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener">Apple&rsquo;s Privacy Policy</a>.</p>
+
+        <p>We do not integrate any third-party advertising SDKs or cross-app tracking frameworks.</p>
+    </section>
+
+    <section class="policy-section" id="data-retention">
+        <h2><span class="section-num">9.</span> Data Retention</h2>
+        <p>We retain your data only as long as necessary to provide the Service and fulfil the purposes described in this policy:</p>
+        <ul>
+            <li><strong>Account data:</strong> retained for as long as your account is active. If you delete your account, your personal data will be permanently removed within 30 days.</li>
+            <li><strong>Project data:</strong> retained while your account is active so you can access your project history. Deleted when your account is deleted.</li>
+            <li><strong>Photos:</strong> images submitted for AI analysis are processed in real time and are not permanently stored on our servers after processing is complete.</li>
+            <li><strong>Analytics data:</strong> anonymised analytics may be retained for up to 24 months for trend analysis.</li>
+            <li><strong>Support communications:</strong> retained for up to 12 months after resolution to help with follow-up enquiries.</li>
+        </ul>
+    </section>
+
+    <section class="policy-section" id="data-security">
+        <h2><span class="section-num">10.</span> Data Security</h2>
+        <p>We take the security of your data seriously and implement appropriate technical and organisational measures:</p>
+        <ul>
+            <li>All data transmitted between the app and our servers is encrypted using TLS (HTTPS).</li>
+            <li>Passwords are hashed using strong, industry-standard algorithms.</li>
+            <li>Access to user data on our servers is restricted to authorised personnel only.</li>
+            <li>We conduct regular security reviews of our infrastructure and codebase.</li>
+        </ul>
+        <p>While we strive to protect your personal information, no method of electronic storage or internet transmission is 100% secure. We cannot guarantee absolute security, but we are committed to maintaining industry-standard protections.</p>
+    </section>
+
+    <section class="policy-section" id="children">
+        <h2><span class="section-num">11.</span> Children&rsquo;s Privacy</h2>
+        <p>DIWAI is rated 4+ on the App Store, meaning it is suitable for all ages. However, the Service is not specifically directed at children under the age of 13.</p>
+        <p>We do not knowingly collect personal information from children under 13 without verifiable parental consent. If you are a parent or guardian and believe your child has provided us with personal information without your consent, please contact us at <a href="mailto:support@diwai.app">support@diwai.app</a> and we will promptly delete such information.</p>
+        <p>For users under 18, we recommend parental supervision when using AI-powered features and online services.</p>
+    </section>
+
+    <section class="policy-section" id="user-rights">
+        <h2><span class="section-num">12.</span> Your Rights (GDPR &amp; CCPA)</h2>
+        <p>Depending on your location, you may have the following rights regarding your personal data:</p>
+
+        <h3>For EU/UK Residents (GDPR)</h3>
+        <ul>
+            <li><strong>Right of access:</strong> request a copy of the personal data we hold about you.</li>
+            <li><strong>Right to rectification:</strong> request correction of inaccurate or incomplete data.</li>
+            <li><strong>Right to erasure:</strong> request deletion of your personal data (&ldquo;right to be forgotten&rdquo;).</li>
+            <li><strong>Right to restriction:</strong> request that we limit how we process your data.</li>
+            <li><strong>Right to data portability:</strong> receive your data in a structured, machine-readable format.</li>
+            <li><strong>Right to object:</strong> object to certain types of data processing.</li>
+        </ul>
+
+        <h3>For California Residents (CCPA)</h3>
+        <ul>
+            <li><strong>Right to know:</strong> what personal information we collect, use, and disclose.</li>
+            <li><strong>Right to delete:</strong> request deletion of your personal information.</li>
+            <li><strong>Right to opt-out:</strong> opt out of the sale of personal information. Note: we do not sell your personal information.</li>
+            <li><strong>Right to non-discrimination:</strong> we will not discriminate against you for exercising your privacy rights.</li>
+        </ul>
+
+        <p>To exercise any of these rights, please contact us at <a href="mailto:support@diwai.app">support@diwai.app</a>. We will respond to your request within 30 days (or as required by applicable law).</p>
+    </section>
+
+    <section class="policy-section" id="changes">
+        <h2><span class="section-num">13.</span> Changes to This Policy</h2>
+        <p>We may update this Privacy Policy from time to time. When we do, we will revise the &ldquo;Last updated&rdquo; date at the top of this page and, where appropriate, notify you via the app or email.</p>
+        <p>We encourage you to review this policy periodically. Your continued use of the Service after any changes constitutes your acceptance of the updated policy.</p>
+    </section>
+
+    <section class="policy-section" id="contact">
+        <h2><span class="section-num">14.</span> Contact Us</h2>
+        <p>If you have any questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+        <div class="highlight-box">
+            <p><strong>Email:</strong> <a href="mailto:support@diwai.app">support@diwai.app</a></p>
+            <p><strong>Website:</strong> <a href="https://diwai.app">diwai.app</a></p>
+        </div>
+        <p>We aim to respond to all enquiries within 48 hours.</p>
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="support.html">Support</a>
+        <a href="mailto:support@diwai.app">Contact</a>
+    </div>
+    <span class="footer-brand"><span class="white">DIW</span><span class="orange">AI</span></span> &mdash; Do It Yourself. Do It With AI. &copy; 2026
+</footer>
+
 </body>
 </html>
