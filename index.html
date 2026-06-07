@@ -131,14 +131,14 @@
 
         /* Horizontal scroll carousel */
         .phone-carousel {
-            display: flex; gap: 32px; overflow-x: auto; scroll-snap-type: x mandatory;
+            display: flex; gap: 32px; overflow-x: auto;
             padding: 20px 40px 40px; -webkit-overflow-scrolling: touch;
             scrollbar-width: none; -ms-overflow-style: none;
         }
         .phone-carousel::-webkit-scrollbar { display: none; }
 
         .phone-slide {
-            scroll-snap-align: center; flex-shrink: 0;
+            flex-shrink: 0;
             display: flex; flex-direction: column; align-items: center; gap: 20px;
         }
         .phone-frame {
@@ -370,35 +370,35 @@
     <p class="section-sub reveal reveal-delay-1">Swipe through the app experience</p>
     <div class="phone-carousel">
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/camera.png" alt="Camera with AI modes" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/camera.png" alt="Camera with AI modes"></div>
             <span class="phone-label"><span class="highlight">AI Camera</span> with Fix, Plan &amp; Design modes</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/design.png" alt="AI Design input" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/design.png" alt="AI Design input"></div>
             <span class="phone-label"><span class="highlight">Design Mode</span> &mdash; reimagine your space</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/plan.png" alt="Plan a project" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/plan.png" alt="Plan a project"></div>
             <span class="phone-label"><span class="highlight">Plan a Project</span> with voice or text</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/overview.png" alt="Project overview" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/overview.png" alt="Project overview"></div>
             <span class="phone-label"><span class="highlight">Full Overview</span> &mdash; cost, time &amp; difficulty</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/shopping.png" alt="Shopping list" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/shopping.png" alt="Shopping list"></div>
             <span class="phone-label"><span class="highlight">Shopping List</span> with real store prices</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/execution.png" alt="Step execution" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/execution.png" alt="Step execution"></div>
             <span class="phone-label"><span class="highlight">Step-by-Step</span> guided instructions</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/stores.png" alt="Nearby stores" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/stores.png" alt="Nearby stores"></div>
             <span class="phone-label"><span class="highlight">Nearby Stores</span> with directions</span>
         </div>
         <div class="phone-slide">
-            <div class="phone-frame"><img src="images/screenshots/profile.png" alt="Profile" loading="lazy"></div>
+            <div class="phone-frame"><img src="images/screenshots/profile.png" alt="Profile"></div>
             <span class="phone-label"><span class="highlight">Profile</span> &amp; subscription management</span>
         </div>
     </div>
@@ -613,55 +613,33 @@ window.addEventListener('scroll', () => {
 // Auto-scroll carousel
 const carousel = document.querySelector('.phone-carousel');
 if (carousel) {
-    let autoScrollInterval = null;
-    let isPaused = false;
-    let scrollSpeed = 1; // pixels per frame
+    let intervalId = null;
+    const step = 1;
 
     function startAutoScroll() {
-        if (autoScrollInterval) return;
-        autoScrollInterval = setInterval(() => {
-            if (isPaused) return;
-            carousel.scrollLeft += scrollSpeed;
-            // Loop back when reaching the end
-            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 2) {
-                // Smoothly reset to start
-                carousel.style.scrollBehavior = 'auto';
+        if (intervalId) return;
+        intervalId = setInterval(() => {
+            carousel.scrollLeft += step;
+            // Loop back to start when reaching the end
+            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth) {
                 carousel.scrollLeft = 0;
-                carousel.style.scrollBehavior = '';
             }
         }, 20);
     }
 
     function stopAutoScroll() {
-        isPaused = true;
+        clearInterval(intervalId);
+        intervalId = null;
     }
 
-    function resumeAutoScroll() {
-        isPaused = false;
-    }
-
-    // Pause on user interaction
+    // Pause on hover/touch
     carousel.addEventListener('mouseenter', stopAutoScroll);
-    carousel.addEventListener('mouseleave', () => setTimeout(resumeAutoScroll, 1000));
+    carousel.addEventListener('mouseleave', startAutoScroll);
     carousel.addEventListener('touchstart', stopAutoScroll, { passive: true });
-    carousel.addEventListener('touchend', () => setTimeout(resumeAutoScroll, 2000));
-    // Pause if user manually scrolls
-    let scrollTimeout;
-    carousel.addEventListener('scroll', () => {
-        stopAutoScroll();
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(resumeAutoScroll, 3000);
-    }, { passive: true });
+    carousel.addEventListener('touchend', () => setTimeout(startAutoScroll, 2000));
 
-    // Start when carousel becomes visible
-    const carouselObserver = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            startAutoScroll();
-        } else {
-            stopAutoScroll();
-        }
-    }, { threshold: 0.3 });
-    carouselObserver.observe(carousel);
+    // Start immediately
+    startAutoScroll();
 }
 </script>
 
