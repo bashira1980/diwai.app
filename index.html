@@ -931,8 +931,8 @@
         /* Delivery tool that slides in with each line */
         .splash-delivery-tool {
             position: absolute;
-            width: 64px;
-            height: 64px;
+            width: 100px;
+            height: 100px;
             opacity: 0;
             transition: none;
             z-index: 10;
@@ -1476,7 +1476,7 @@
     function animateTool(toolIdx, fromDir, onArrived, onDone) {
         deliveryTool.innerHTML = toolSVGs[toolIdx];
         deliveryTool.style.transition = 'none';
-        deliveryTool.style.top = 'calc(50% - 32px)';
+        deliveryTool.style.top = 'calc(50% - 50px)';
 
         if (fromDir === 'left') {
             deliveryTool.style.left = '-80px';
@@ -1494,9 +1494,9 @@
         // Slide in
         deliveryTool.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
         if (fromDir === 'left') {
-            deliveryTool.style.left = 'calc(50% - 280px)';
+            deliveryTool.style.left = 'calc(50% - 400px)';
         } else {
-            deliveryTool.style.right = 'calc(50% - 280px)';
+            deliveryTool.style.right = 'calc(50% - 400px)';
         }
 
         setTimeout(function() {
