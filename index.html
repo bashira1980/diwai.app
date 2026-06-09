@@ -920,6 +920,51 @@
             overflow: hidden;
         }
 
+        /* Splash floating tools */
+        .splash-tools {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .splash-tool {
+            position: absolute;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .splash-tool.visible {
+            opacity: 1;
+        }
+        .splash-tool svg {
+            width: 100%;
+            height: 100%;
+        }
+        .splash-tool-1 { top: 8%; left: 8%; width: 44px; height: 44px; animation: tool-float-1 6s ease-in-out infinite; }
+        .splash-tool-2 { top: 12%; right: 10%; width: 40px; height: 40px; animation: tool-float-2 7s ease-in-out infinite; }
+        .splash-tool-3 { top: 35%; left: 5%; width: 38px; height: 38px; animation: tool-float-3 5.5s ease-in-out infinite; }
+        .splash-tool-4 { top: 30%; right: 6%; width: 42px; height: 42px; animation: tool-float-1 6.5s ease-in-out infinite; }
+        .splash-tool-5 { bottom: 30%; left: 9%; width: 36px; height: 36px; animation: tool-float-2 5s ease-in-out infinite; }
+        .splash-tool-6 { bottom: 25%; right: 8%; width: 40px; height: 40px; animation: tool-float-3 7.5s ease-in-out infinite; }
+        .splash-tool-7 { bottom: 10%; left: 14%; width: 38px; height: 38px; animation: tool-float-1 5.5s ease-in-out infinite; }
+        .splash-tool-8 { bottom: 12%; right: 14%; width: 36px; height: 36px; animation: tool-float-2 6s ease-in-out infinite; }
+        .splash-tool-9 { top: 20%; left: 20%; width: 32px; height: 32px; animation: tool-float-3 6.5s ease-in-out infinite; }
+        .splash-tool-10 { top: 18%; right: 22%; width: 34px; height: 34px; animation: tool-float-1 7s ease-in-out infinite; }
+        .splash-tool-11 { bottom: 40%; left: 18%; width: 30px; height: 30px; animation: tool-float-2 5.5s ease-in-out infinite; }
+        .splash-tool-12 { bottom: 38%; right: 18%; width: 34px; height: 34px; animation: tool-float-3 6s ease-in-out infinite; }
+
+        @keyframes tool-float-1 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(8deg); }
+        }
+        @keyframes tool-float-2 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(-6deg); }
+        }
+        @keyframes tool-float-3 {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-14px) rotate(5deg); }
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .features-grid {
@@ -973,6 +1018,32 @@
 
 <!-- SPLASH -->
 <div class="splash" id="splash">
+    <div class="splash-tools" id="splashTools">
+        <!-- Hammer -->
+        <div class="splash-tool splash-tool-1"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M14 8L26 20" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round"/><path d="M22 16L36 10L40 14L34 28L30 24" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 22L8 38" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+        <!-- Wrench -->
+        <div class="splash-tool splash-tool-2"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M36 8C33 5 28 5 25 8L22 11L37 26L40 23C43 20 43 15 40 12L36 8Z" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/><path d="M22 11L8 25L12 29L26 15" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/></svg></div>
+        <!-- Screwdriver -->
+        <div class="splash-tool splash-tool-3"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M28 6L22 12L26 16L32 10" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/><path d="M22 12L10 36" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity="0.4"/><circle cx="10" cy="38" r="3" stroke="#fff" stroke-width="2" opacity="0.4"/></svg></div>
+        <!-- Saw -->
+        <div class="splash-tool splash-tool-4"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M6 20H32L38 14" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 20V28L14 20V28L18 20V28L22 20V28L26 20V28L30 20V26" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <!-- Paint roller -->
+        <div class="splash-tool splash-tool-5"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="8" width="24" height="10" rx="3" stroke="#fff" stroke-width="2.5" opacity="0.5"/><path d="M32 13H36V24H22" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.5"/><path d="M22 24V40" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/></svg></div>
+        <!-- Drill -->
+        <div class="splash-tool splash-tool-6"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M10 18H24L28 14H36L40 18L36 22H28L24 18" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 18H10" stroke="#FF7A00" stroke-width="3" stroke-linecap="round"/><path d="M24 18V30" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+        <!-- Tape measure -->
+        <div class="splash-tool splash-tool-7"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="24" cy="24" r="14" stroke="#fff" stroke-width="2.5" opacity="0.4"/><circle cx="24" cy="24" r="5" stroke="#fff" stroke-width="2" opacity="0.4"/><path d="M24 10V16" stroke="#fff" stroke-width="2" stroke-linecap="round" opacity="0.4"/></svg></div>
+        <!-- Level -->
+        <div class="splash-tool splash-tool-8"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="4" y="18" width="40" height="12" rx="3" stroke="#FF7A00" stroke-width="2.5"/><circle cx="24" cy="24" r="4" stroke="#FF7A00" stroke-width="2"/><circle cx="24" cy="24" r="1.5" fill="#FF7A00"/></svg></div>
+        <!-- Paintbrush -->
+        <div class="splash-tool splash-tool-9"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M32 6L18 24L22 28L40 14" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M18 24L12 32C10 36 12 40 16 38L22 28" stroke="#FF7A00" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <!-- Pliers -->
+        <div class="splash-tool splash-tool-10"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M18 6L22 20L16 34" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/><path d="M30 6L26 20L32 34" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/><circle cx="24" cy="20" r="4" stroke="#fff" stroke-width="2" opacity="0.4"/></svg></div>
+        <!-- Ruler -->
+        <div class="splash-tool splash-tool-11"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="6" y="16" width="36" height="16" rx="2" stroke="#FF7A00" stroke-width="2.5" transform="rotate(-30 24 24)"/><path d="M14 22V26M20 20V26M26 22V26M32 20V26" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" transform="rotate(-30 24 24)"/></svg></div>
+        <!-- Cog/gear -->
+        <div class="splash-tool splash-tool-12"><svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M24 8V12M24 36V40M8 24H12M36 24H40M12.7 12.7L15.5 15.5M32.5 32.5L35.3 35.3M35.3 12.7L32.5 15.5M15.5 32.5L12.7 35.3" stroke="#fff" stroke-width="2.5" stroke-linecap="round" opacity="0.5"/><circle cx="24" cy="24" r="8" stroke="#fff" stroke-width="2.5" opacity="0.5"/></svg></div>
+    </div>
     <span class="splash-line splash-line-1" id="sl1">DIY...</span>
     <span class="splash-line splash-line-2" id="sl2">Do it yourself...</span>
     <span class="splash-line splash-line-3" id="sl3">Now do it with <em>AI</em></span>
@@ -1393,10 +1464,24 @@
         }, durations[i]);
     }
 
+    // Fade in tools with staggered timing
+    var tools = document.querySelectorAll('.splash-tool');
+    function showTools() {
+        tools.forEach(function(tool, idx) {
+            setTimeout(function() {
+                tool.classList.add('visible');
+            }, idx * 80);
+        });
+    }
+
     // Start after fonts load
     if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(() => setTimeout(showNext, 300));
+        document.fonts.ready.then(function() {
+            setTimeout(showTools, 100);
+            setTimeout(showNext, 300);
+        });
     } else {
+        setTimeout(showTools, 200);
         setTimeout(showNext, 500);
     }
 })();
