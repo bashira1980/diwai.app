@@ -939,18 +939,20 @@
             width: 100%;
             height: 100%;
         }
-        .splash-tool-1 { top: 8%; left: 8%; width: 44px; height: 44px; animation: tool-float-1 6s ease-in-out infinite; }
-        .splash-tool-2 { top: 12%; right: 10%; width: 40px; height: 40px; animation: tool-float-2 7s ease-in-out infinite; }
-        .splash-tool-3 { top: 35%; left: 5%; width: 38px; height: 38px; animation: tool-float-3 5.5s ease-in-out infinite; }
-        .splash-tool-4 { top: 30%; right: 6%; width: 42px; height: 42px; animation: tool-float-1 6.5s ease-in-out infinite; }
-        .splash-tool-5 { bottom: 30%; left: 9%; width: 36px; height: 36px; animation: tool-float-2 5s ease-in-out infinite; }
-        .splash-tool-6 { bottom: 25%; right: 8%; width: 40px; height: 40px; animation: tool-float-3 7.5s ease-in-out infinite; }
-        .splash-tool-7 { bottom: 10%; left: 14%; width: 38px; height: 38px; animation: tool-float-1 5.5s ease-in-out infinite; }
-        .splash-tool-8 { bottom: 12%; right: 14%; width: 36px; height: 36px; animation: tool-float-2 6s ease-in-out infinite; }
-        .splash-tool-9 { top: 20%; left: 20%; width: 32px; height: 32px; animation: tool-float-3 6.5s ease-in-out infinite; }
-        .splash-tool-10 { top: 18%; right: 22%; width: 34px; height: 34px; animation: tool-float-1 7s ease-in-out infinite; }
-        .splash-tool-11 { bottom: 40%; left: 18%; width: 30px; height: 30px; animation: tool-float-2 5.5s ease-in-out infinite; }
-        .splash-tool-12 { bottom: 38%; right: 18%; width: 34px; height: 34px; animation: tool-float-3 6s ease-in-out infinite; }
+        /* Outer ring - large tools at the edges */
+        .splash-tool-1  { top: 6%;  left: 6%;  width: 72px; height: 72px; animation: tool-float-1 6s ease-in-out infinite; }
+        .splash-tool-2  { top: 8%;  right: 7%; width: 68px; height: 68px; animation: tool-float-2 7s ease-in-out infinite; }
+        .splash-tool-4  { top: 28%; right: 4%; width: 70px; height: 70px; animation: tool-float-1 6.5s ease-in-out infinite; }
+        .splash-tool-6  { bottom: 20%; right: 5%; width: 68px; height: 68px; animation: tool-float-3 7.5s ease-in-out infinite; }
+        .splash-tool-7  { bottom: 6%;  left: 8%;  width: 66px; height: 66px; animation: tool-float-1 5.5s ease-in-out infinite; }
+        .splash-tool-8  { bottom: 8%;  right: 9%; width: 64px; height: 64px; animation: tool-float-2 6s ease-in-out infinite; }
+        .splash-tool-3  { top: 32%; left: 4%;  width: 64px; height: 64px; animation: tool-float-3 5.5s ease-in-out infinite; }
+        .splash-tool-5  { bottom: 28%; left: 6%; width: 62px; height: 62px; animation: tool-float-2 5s ease-in-out infinite; }
+        /* Inner ring - closer to the text */
+        .splash-tool-9  { top: 22%;  left: 25%;  width: 56px; height: 56px; animation: tool-float-3 6.5s ease-in-out infinite; }
+        .splash-tool-10 { top: 20%;  right: 24%; width: 58px; height: 58px; animation: tool-float-1 7s ease-in-out infinite; }
+        .splash-tool-11 { bottom: 24%; left: 26%;  width: 52px; height: 52px; animation: tool-float-2 5.5s ease-in-out infinite; }
+        .splash-tool-12 { bottom: 22%; right: 25%; width: 54px; height: 54px; animation: tool-float-3 6s ease-in-out infinite; }
 
         @keyframes tool-float-1 {
             0%, 100% { transform: translateY(0) rotate(0deg); }
