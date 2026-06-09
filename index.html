@@ -847,6 +847,79 @@
         .footer-brand .white { color: #fff; }
         .footer-brand .orange { color: var(--warm-orange); }
 
+        /* ===== SPLASH ===== */
+        .splash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+        .splash.done {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .splash-line {
+            position: absolute;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-align: center;
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            white-space: nowrap;
+        }
+        .splash-line.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .splash-line.fade-out {
+            opacity: 0;
+            transform: scale(1.06);
+        }
+        .splash-line-1 {
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            color: var(--text-secondary);
+        }
+        .splash-line-2 {
+            font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+            color: var(--text-secondary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .splash-line-3 {
+            font-size: clamp(1.6rem, 4.5vw, 2.8rem);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+        .splash-line-3 em {
+            color: var(--warm-orange);
+            font-style: normal;
+        }
+        .splash-line-4 {
+            font-size: clamp(4rem, 12vw, 7rem);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .splash-line-4 .white { color: #fff; }
+        .splash-line-4 .orange { color: var(--warm-orange); }
+        .splash-logo {
+            width: clamp(56px, 10vw, 80px);
+            height: clamp(56px, 10vw, 80px);
+            border-radius: 18px;
+            box-shadow: 0 0 60px rgba(255,122,0,0.3);
+        }
+        body.splash-active {
+            overflow: hidden;
+        }
+
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
             .features-grid {
@@ -896,7 +969,18 @@
         }
     </style>
 </head>
-<body>
+<body class="splash-active">
+
+<!-- SPLASH -->
+<div class="splash" id="splash">
+    <span class="splash-line splash-line-1" id="sl1">DIY...</span>
+    <span class="splash-line splash-line-2" id="sl2">Do it yourself...</span>
+    <span class="splash-line splash-line-3" id="sl3">Now do it with <em>AI</em></span>
+    <span class="splash-line splash-line-4" id="sl4">
+        <img src="images/logo.png" alt="" class="splash-logo">
+        <span><span class="white">DIW</span><span class="orange">AI</span></span>
+    </span>
+</div>
 
 <!-- NAV -->
 <nav id="mainNav">
@@ -1272,6 +1356,51 @@
 </footer>
 
 <script>
+// Splash animation sequence
+(function() {
+    const lines = [
+        document.getElementById('sl1'),
+        document.getElementById('sl2'),
+        document.getElementById('sl3'),
+        document.getElementById('sl4')
+    ];
+    const splash = document.getElementById('splash');
+    const durations = [900, 900, 1000, 1400]; // how long each line stays visible
+    const gaps = [400, 300, 300, 200]; // pause before next line
+    let i = 0;
+
+    function showNext() {
+        if (i >= lines.length) {
+            // Final pause then dismiss
+            setTimeout(() => {
+                splash.classList.add('done');
+                document.body.classList.remove('splash-active');
+            }, 200);
+            return;
+        }
+        const line = lines[i];
+        line.classList.add('active');
+        setTimeout(() => {
+            // Fade out current line (skip fade-out on last line, it stays until splash dissolves)
+            if (i < lines.length - 1) {
+                line.classList.remove('active');
+                line.classList.add('fade-out');
+            }
+            setTimeout(() => {
+                i++;
+                showNext();
+            }, gaps[i] || 300);
+        }, durations[i]);
+    }
+
+    // Start after fonts load
+    if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(() => setTimeout(showNext, 300));
+    } else {
+        setTimeout(showNext, 500);
+    }
+})();
+
 // Scroll reveal with IntersectionObserver
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
