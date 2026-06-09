@@ -863,47 +863,43 @@
             visibility: hidden;
             pointer-events: none;
         }
+        body.splash-active { overflow: hidden; }
+
+        /* Splash text lines */
         .splash-line {
             position: absolute;
-            font-family: 'Nunito', sans-serif;
-            font-weight: 900;
-            letter-spacing: -0.02em;
             text-align: center;
-            opacity: 0;
-            transform: scale(0.92);
-            transition: opacity 0.6s ease, transform 0.6s ease;
             white-space: nowrap;
-        }
-        .splash-line.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .splash-line.fade-out {
             opacity: 0;
-            transform: scale(1.06);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
+        .splash-line.active { opacity: 1; }
+        .splash-line.fade-out { opacity: 0; transform: scale(1.04); }
+
         .splash-line-1 {
-            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-family: 'Nunito', sans-serif;
+            font-size: clamp(2.2rem, 7vw, 4rem);
+            font-weight: 900;
             color: var(--text-secondary);
+            letter-spacing: -0.02em;
         }
         .splash-line-2 {
-            font-size: clamp(1.6rem, 4.5vw, 2.8rem);
-            color: var(--text-secondary);
             font-family: 'Inter', sans-serif;
+            font-size: clamp(1.5rem, 4.5vw, 2.6rem);
             font-weight: 600;
+            color: var(--text-secondary);
         }
         .splash-line-3 {
-            font-size: clamp(1.6rem, 4.5vw, 2.8rem);
-            color: var(--text-primary);
             font-family: 'Inter', sans-serif;
+            font-size: clamp(1.5rem, 4.5vw, 2.6rem);
             font-weight: 600;
+            color: var(--text-primary);
         }
-        .splash-line-3 em {
-            color: var(--warm-orange);
-            font-style: normal;
-        }
+        .splash-line-3 em { color: var(--warm-orange); font-style: normal; }
         .splash-line-4 {
+            font-family: 'Nunito', sans-serif;
             font-size: clamp(4rem, 12vw, 7rem);
+            font-weight: 900;
             display: flex;
             align-items: center;
             gap: 20px;
@@ -916,56 +912,69 @@
             border-radius: 18px;
             box-shadow: 0 0 60px rgba(255,122,0,0.3);
         }
-        body.splash-active {
-            overflow: hidden;
+
+        /* Typewriter cursor blink */
+        .splash-cursor {
+            display: inline-block;
+            width: 3px;
+            height: 1em;
+            background: var(--warm-orange);
+            margin-left: 4px;
+            vertical-align: text-bottom;
+            animation: cursor-blink 0.6s step-end infinite;
+        }
+        @keyframes cursor-blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
         }
 
-        /* Splash floating tools */
-        .splash-tools {
+        /* Delivery tool that slides in with each line */
+        .splash-delivery-tool {
             position: absolute;
-            inset: 0;
-            pointer-events: none;
-            overflow: hidden;
-        }
-        .splash-tool {
-            position: absolute;
+            width: 64px;
+            height: 64px;
             opacity: 0;
-            transition: opacity 1.2s ease;
+            transition: none;
+            z-index: 10;
         }
-        .splash-tool.visible {
-            opacity: 1;
-        }
-        .splash-tool svg {
+        .splash-delivery-tool svg {
             width: 100%;
             height: 100%;
         }
-        /* Outer ring - large tools at the edges */
-        .splash-tool-1  { top: 6%;  left: 6%;  width: 72px; height: 72px; animation: tool-float-1 6s ease-in-out infinite; }
-        .splash-tool-2  { top: 8%;  right: 7%; width: 68px; height: 68px; animation: tool-float-2 7s ease-in-out infinite; }
-        .splash-tool-4  { top: 28%; right: 4%; width: 70px; height: 70px; animation: tool-float-1 6.5s ease-in-out infinite; }
-        .splash-tool-6  { bottom: 20%; right: 5%; width: 68px; height: 68px; animation: tool-float-3 7.5s ease-in-out infinite; }
-        .splash-tool-7  { bottom: 6%;  left: 8%;  width: 66px; height: 66px; animation: tool-float-1 5.5s ease-in-out infinite; }
-        .splash-tool-8  { bottom: 8%;  right: 9%; width: 64px; height: 64px; animation: tool-float-2 6s ease-in-out infinite; }
-        .splash-tool-3  { top: 32%; left: 4%;  width: 64px; height: 64px; animation: tool-float-3 5.5s ease-in-out infinite; }
-        .splash-tool-5  { bottom: 28%; left: 6%; width: 62px; height: 62px; animation: tool-float-2 5s ease-in-out infinite; }
-        /* Inner ring - closer to the text */
-        .splash-tool-9  { top: 22%;  left: 25%;  width: 56px; height: 56px; animation: tool-float-3 6.5s ease-in-out infinite; }
-        .splash-tool-10 { top: 20%;  right: 24%; width: 58px; height: 58px; animation: tool-float-1 7s ease-in-out infinite; }
-        .splash-tool-11 { bottom: 24%; left: 26%;  width: 52px; height: 52px; animation: tool-float-2 5.5s ease-in-out infinite; }
-        .splash-tool-12 { bottom: 22%; right: 25%; width: 54px; height: 54px; animation: tool-float-3 6s ease-in-out infinite; }
 
-        @keyframes tool-float-1 {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-12px) rotate(8deg); }
+        /* Settled tools around the final DIWAI text */
+        .splash-settled-tool {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0) rotate(-30deg);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 5;
         }
-        @keyframes tool-float-2 {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(-6deg); }
+        .splash-settled-tool.visible {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
         }
-        @keyframes tool-float-3 {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            50% { transform: translateY(-14px) rotate(5deg); }
+        .splash-settled-tool svg {
+            width: 100%;
+            height: 100%;
         }
+        /* Final tool positions around DIWAI */
+        .settled-1  { top: 18%; left: 15%;  width: 56px; height: 56px; }
+        .settled-2  { top: 14%; right: 16%; width: 52px; height: 52px; }
+        .settled-3  { top: 34%; left: 8%;   width: 48px; height: 48px; }
+        .settled-4  { top: 30%; right: 9%;  width: 50px; height: 50px; }
+        .settled-5  { bottom: 30%; left: 10%;  width: 50px; height: 50px; }
+        .settled-6  { bottom: 32%; right: 10%; width: 48px; height: 48px; }
+        .settled-7  { bottom: 16%; left: 18%;  width: 52px; height: 52px; }
+        .settled-8  { bottom: 14%; right: 16%; width: 54px; height: 54px; }
+        .settled-1.visible  { transform: scale(1) rotate(-8deg); }
+        .settled-2.visible  { transform: scale(1) rotate(6deg); }
+        .settled-3.visible  { transform: scale(1) rotate(12deg); }
+        .settled-4.visible  { transform: scale(1) rotate(-10deg); }
+        .settled-5.visible  { transform: scale(1) rotate(5deg); }
+        .settled-6.visible  { transform: scale(1) rotate(-7deg); }
+        .settled-7.visible  { transform: scale(1) rotate(10deg); }
+        .settled-8.visible  { transform: scale(1) rotate(-5deg); }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
@@ -1020,39 +1029,27 @@
 
 <!-- SPLASH -->
 <div class="splash" id="splash">
-    <div class="splash-tools" id="splashTools">
-        <!-- Hammer (orange) -->
-        <div class="splash-tool splash-tool-1"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg></div>
-        <!-- Wrench (white) -->
-        <div class="splash-tool splash-tool-2"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg></div>
-        <!-- Paintbrush (white) -->
-        <div class="splash-tool splash-tool-3"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg></div>
-        <!-- Ruler (orange) -->
-        <div class="splash-tool splash-tool-4"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg></div>
-        <!-- Paint Roller (white) -->
-        <div class="splash-tool splash-tool-5"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="6" x="2" y="2" rx="2"/><path d="M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect width="4" height="6" x="8" y="16" rx="1"/></svg></div>
-        <!-- Drill (orange) -->
-        <div class="splash-tool splash-tool-6"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3 1 1 0 0 1 1-1z"/><path d="M13 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1l-.81 3.242a1 1 0 0 1-.97.758H8"/><path d="M14 4h3a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3"/><path d="M18 6h4"/><path d="m5 10-2 8"/><path d="m7 18 2-8"/></svg></div>
-        <!-- Scissors (white) -->
-        <div class="splash-tool splash-tool-7"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88"/><path d="M14.8 14.8 20 20"/></svg></div>
-        <!-- Shovel (orange) -->
-        <div class="splash-tool splash-tool-8"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.56 4.56a1.5 1.5 0 0 1 0 2.122l-.47.47a3 3 0 0 1-4.212-.03 3 3 0 0 1 0-4.243l.44-.44a1.5 1.5 0 0 1 2.121 0z"/><path d="M3 22a1 1 0 0 1-1-1v-3.586a1 1 0 0 1 .293-.707l3.355-3.355a1.205 1.205 0 0 1 1.704 0l3.296 3.296a1.205 1.205 0 0 1 0 1.704l-3.355 3.355a1 1 0 0 1-.707.293z"/><path d="m9 15 7.879-7.878"/></svg></div>
-        <!-- Paint Bucket (orange) -->
-        <div class="splash-tool splash-tool-9"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 7 6 2"/><path d="M18.992 12H2.041"/><path d="M21.145 18.38A3.34 3.34 0 0 1 20 16.5a3.3 3.3 0 0 1-1.145 1.88c-.575.46-.855 1.02-.855 1.595A2 2 0 0 0 20 22a2 2 0 0 0 2-2.025c0-.58-.285-1.13-.855-1.595"/><path d="m8.5 4.5 2.148-2.148a1.205 1.205 0 0 1 1.704 0l7.296 7.296a1.205 1.205 0 0 1 0 1.704l-7.592 7.592a3.615 3.615 0 0 1-5.112 0l-3.888-3.888a3.615 3.615 0 0 1 0-5.112L5.67 7.33"/></svg></div>
-        <!-- Plug (white) -->
-        <div class="splash-tool splash-tool-10"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/></svg></div>
-        <!-- Pipette (white) -->
-        <div class="splash-tool splash-tool-11"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 9-8.414 8.414A2 2 0 0 0 3 18.828v1.344a2 2 0 0 1-.586 1.414A2 2 0 0 1 3.828 21h1.344a2 2 0 0 0 1.414-.586L15 12"/><path d="m18 9 .4.4a1 1 0 1 1-3 3l-3.8-3.8a1 1 0 1 1 3-3l.4.4 3.4-3.4a1 1 0 1 1 3 3z"/><path d="m2 22 .414-.414"/></svg></div>
-        <!-- Bolt/Nut (orange) -->
-        <div class="splash-tool splash-tool-12"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><circle cx="12" cy="12" r="4"/></svg></div>
-    </div>
-    <span class="splash-line splash-line-1" id="sl1">DIY...</span>
-    <span class="splash-line splash-line-2" id="sl2">Do it yourself...</span>
-    <span class="splash-line splash-line-3" id="sl3">Now do it with <em>AI</em></span>
+    <!-- Delivery tool (reused for each line) -->
+    <div class="splash-delivery-tool" id="deliveryTool"></div>
+
+    <!-- Text lines -->
+    <span class="splash-line splash-line-1" id="sl1"></span>
+    <span class="splash-line splash-line-2" id="sl2"></span>
+    <span class="splash-line splash-line-3" id="sl3"></span>
     <span class="splash-line splash-line-4" id="sl4">
         <img src="images/logo.png" alt="" class="splash-logo">
         <span><span class="white">DIW</span><span class="orange">AI</span></span>
     </span>
+
+    <!-- Settled tools that appear around final DIWAI -->
+    <div class="splash-settled-tool settled-1" id="st1"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg></div>
+    <div class="splash-settled-tool settled-2" id="st2"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg></div>
+    <div class="splash-settled-tool settled-3" id="st3"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg></div>
+    <div class="splash-settled-tool settled-4" id="st4"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg></div>
+    <div class="splash-settled-tool settled-5" id="st5"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="6" x="2" y="2" rx="2"/><path d="M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect width="4" height="6" x="8" y="16" rx="1"/></svg></div>
+    <div class="splash-settled-tool settled-6" id="st6"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3 1 1 0 0 1 1-1z"/><path d="M13 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1l-.81 3.242a1 1 0 0 1-.97.758H8"/><path d="M14 4h3a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3"/><path d="M18 6h4"/><path d="m5 10-2 8"/><path d="m7 18 2-8"/></svg></div>
+    <div class="splash-settled-tool settled-7" id="st7"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88"/><path d="M14.8 14.8 20 20"/></svg></div>
+    <div class="splash-settled-tool settled-8" id="st8"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.56 4.56a1.5 1.5 0 0 1 0 2.122l-.47.47a3 3 0 0 1-4.212-.03 3 3 0 0 1 0-4.243l.44-.44a1.5 1.5 0 0 1 2.121 0z"/><path d="M3 22a1 1 0 0 1-1-1v-3.586a1 1 0 0 1 .293-.707l3.355-3.355a1.205 1.205 0 0 1 1.704 0l3.296 3.296a1.205 1.205 0 0 1 0 1.704l-3.355 3.355a1 1 0 0 1-.707.293z"/><path d="m9 15 7.879-7.878"/></svg></div>
 </div>
 
 <!-- NAV -->
@@ -1429,62 +1426,163 @@
 </footer>
 
 <script>
-// Splash animation sequence
+// Splash animation — tools deliver the text
 (function() {
-    const lines = [
-        document.getElementById('sl1'),
-        document.getElementById('sl2'),
-        document.getElementById('sl3'),
-        document.getElementById('sl4')
-    ];
-    const splash = document.getElementById('splash');
-    const durations = [900, 900, 1000, 1400]; // how long each line stays visible
-    const gaps = [400, 300, 300, 200]; // pause before next line
-    let i = 0;
+    var splash = document.getElementById('splash');
+    var deliveryTool = document.getElementById('deliveryTool');
 
-    function showNext() {
-        if (i >= lines.length) {
-            // Final pause then dismiss
-            setTimeout(() => {
-                splash.classList.add('done');
-                document.body.classList.remove('splash-active');
-            }, 200);
-            return;
-        }
-        const line = lines[i];
-        line.classList.add('active');
-        setTimeout(() => {
-            // Fade out current line (skip fade-out on last line, it stays until splash dissolves)
-            if (i < lines.length - 1) {
-                line.classList.remove('active');
-                line.classList.add('fade-out');
-            }
-            setTimeout(() => {
+    // Tool SVGs for delivery (hammer, paintbrush, drill, wrench)
+    var toolSVGs = [
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3 1 1 0 0 1 1-1z"/><path d="M13 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1l-.81 3.242a1 1 0 0 1-.97.758H8"/><path d="M14 4h3a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3"/><path d="M18 6h4"/><path d="m5 10-2 8"/><path d="m7 18 2-8"/></svg>',
+        '<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg>'
+    ];
+
+    // Lines 1-3 are typewritten; line 4 is the big DIWAI reveal
+    var textLines = [
+        { id: 'sl1', text: 'DIY...', htmlText: 'DIY...' },
+        { id: 'sl2', text: 'Do it yourself...', htmlText: 'Do it yourself...' },
+        { id: 'sl3', text: 'Now do it with AI', htmlText: 'Now do it with <em>AI</em>' }
+    ];
+
+    // Tool enters from alternating sides
+    var enterDirs = ['left', 'right', 'left', 'right'];
+
+    // Typewriter effect
+    function typewrite(el, text, htmlFinal, speed, cb) {
+        var i = 0;
+        el.textContent = '';
+        var cursor = document.createElement('span');
+        cursor.className = 'splash-cursor';
+        el.appendChild(cursor);
+        el.classList.add('active');
+
+        var interval = setInterval(function() {
+            if (i < text.length) {
+                el.textContent = text.substring(0, i + 1);
+                el.appendChild(cursor);
                 i++;
-                showNext();
-            }, gaps[i] || 300);
-        }, durations[i]);
+            } else {
+                clearInterval(interval);
+                // Remove cursor, show final HTML version
+                el.innerHTML = htmlFinal;
+                if (cb) cb();
+            }
+        }, speed);
     }
 
-    // Fade in tools with staggered timing
-    var tools = document.querySelectorAll('.splash-tool');
-    function showTools() {
-        tools.forEach(function(tool, idx) {
+    // Animate delivery tool in and out
+    function animateTool(toolIdx, fromDir, onArrived, onDone) {
+        deliveryTool.innerHTML = toolSVGs[toolIdx];
+        deliveryTool.style.transition = 'none';
+        deliveryTool.style.top = 'calc(50% - 32px)';
+
+        if (fromDir === 'left') {
+            deliveryTool.style.left = '-80px';
+            deliveryTool.style.right = 'auto';
+        } else {
+            deliveryTool.style.left = 'auto';
+            deliveryTool.style.right = '-80px';
+        }
+        deliveryTool.style.opacity = '1';
+        deliveryTool.style.transform = 'rotate(0deg)';
+
+        // Force reflow
+        deliveryTool.offsetWidth;
+
+        // Slide in
+        deliveryTool.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+        if (fromDir === 'left') {
+            deliveryTool.style.left = 'calc(50% - 160px)';
+        } else {
+            deliveryTool.style.right = 'calc(50% - 160px)';
+        }
+
+        setTimeout(function() {
+            // Tool arrived — start typewriter
+            if (onArrived) onArrived();
+        }, 500);
+
+        // After text is done, call onDone which will slide tool out
+        return function slideOut() {
+            deliveryTool.style.transition = 'all 0.4s cubic-bezier(0.5, 0, 0.84, 0)';
+            if (fromDir === 'left') {
+                deliveryTool.style.left = 'calc(100% + 80px)';
+                deliveryTool.style.transform = 'rotate(15deg)';
+            } else {
+                deliveryTool.style.right = 'calc(100% + 80px)';
+                deliveryTool.style.transform = 'rotate(-15deg)';
+            }
+            deliveryTool.style.opacity = '0';
             setTimeout(function() {
-                tool.classList.add('visible');
-            }, idx * 80);
-        });
+                if (onDone) onDone();
+            }, 450);
+        };
+    }
+
+    // Sequence: tool in → typewrite → hold → fade text → tool out → next
+    var step = 0;
+
+    function runStep() {
+        if (step < textLines.length) {
+            var cfg = textLines[step];
+            var el = document.getElementById(cfg.id);
+            var dir = enterDirs[step];
+            var toolIdx = step;
+
+            var slideOut = animateTool(toolIdx, dir, function() {
+                // Tool arrived, start typing
+                typewrite(el, cfg.text, cfg.htmlText, 55, function() {
+                    // Text done, hold briefly then fade out
+                    setTimeout(function() {
+                        el.classList.remove('active');
+                        el.classList.add('fade-out');
+                        slideOut();
+                        // After tool exits, advance
+                        setTimeout(function() {
+                            step++;
+                            runStep();
+                        }, 500);
+                    }, 400);
+                });
+            });
+        } else {
+            // Final step: DIWAI reveal with all tools settling
+            showFinalReveal();
+        }
+    }
+
+    function showFinalReveal() {
+        // Hide delivery tool
+        deliveryTool.style.opacity = '0';
+
+        // Show DIWAI line
+        var sl4 = document.getElementById('sl4');
+        sl4.classList.add('active');
+
+        // Stagger the settled tools around it
+        for (var t = 1; t <= 8; t++) {
+            (function(idx) {
+                setTimeout(function() {
+                    var st = document.getElementById('st' + idx);
+                    if (st) st.classList.add('visible');
+                }, idx * 100);
+            })(t);
+        }
+
+        // Hold the final frame, then dismiss
+        setTimeout(function() {
+            splash.classList.add('done');
+            document.body.classList.remove('splash-active');
+        }, 1800);
     }
 
     // Start after fonts load
     if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function() {
-            setTimeout(showTools, 100);
-            setTimeout(showNext, 300);
-        });
+        document.fonts.ready.then(function() { setTimeout(runStep, 400); });
     } else {
-        setTimeout(showTools, 200);
-        setTimeout(showNext, 500);
+        setTimeout(runStep, 600);
     }
 })();
 
