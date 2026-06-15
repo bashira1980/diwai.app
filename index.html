@@ -14,148 +14,200 @@
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Nunito:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        /* ===== DESIGN TOKENS ===== */
         :root {
-            --bg-primary: #000000;
-            --bg-secondary: #0a0a0a;
-            --bg-elevated: #111111;
-            --warm-orange: #FF7A00;
-            --orange-light: #FF9B40;
-            --electric-blue: #00B2FF;
-            --text-primary: #f5f5f7;
-            --text-secondary: #86868b;
-            --text-tertiary: #6e6e73;
-            --card-bg: rgba(28,28,30,0.72);
-            --card-border: rgba(255,255,255,0.08);
-            --glass-bg: rgba(255,255,255,0.04);
-            --glass-border: rgba(255,255,255,0.06);
-            --radius: 24px;
-            --radius-sm: 16px;
+            --bg-deep:    #020203;
+            --bg-base:    #050506;
+            --bg-elevated:#0a0a0c;
+            --surface:    rgba(255,255,255,0.04);
+            --surface-hover: rgba(255,255,255,0.07);
+            --border:     rgba(255,255,255,0.08);
+            --border-strong: rgba(255,255,255,0.14);
+            --fg:         #EDEDEF;
+            --fg-muted:   #8A8F98;
+            --fg-faint:   #4A4F5A;
+            --orange:     #FF7A00;
+            --orange-glow:rgba(255,122,0,0.18);
+            --orange-dim: rgba(255,122,0,0.08);
+            --indigo:     #5E6AD2;
+            --indigo-glow:rgba(94,106,210,0.15);
+            --radius:     20px;
+            --radius-sm:  12px;
+            --radius-xs:  8px;
+            --ease:       cubic-bezier(0.16,1,0.3,1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
         html { scroll-behavior: smooth; }
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
-            color: var(--text-primary);
-            background: var(--bg-primary);
-            line-height: 1.5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-base);
+            color: var(--fg);
             -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            line-height: 1.5;
         }
 
-        /* ===== ANIMATIONS ===== */
+        /* ===== SPLASH SCREEN ===== */
+        #splash {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg-deep);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #splash.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.6s var(--ease);
+        }
+        .splash-line {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #fff;
+            opacity: 0;
+            white-space: nowrap;
+            text-align: center;
+        }
+        .splash-line.orange { color: var(--orange); }
+        .splash-final {
+            position: absolute;
+            left: 50%; top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
+            opacity: 0;
+        }
+        .splash-final img { width: 80px; height: 80px; border-radius: 18px; }
+        .splash-final-text {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            background: linear-gradient(135deg, #fff 40%, var(--orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Floating tool icons on splash */
+        .splash-tool {
+            position: absolute;
+            opacity: 0;
+            color: var(--orange);
+            animation: none;
+        }
+
+        @keyframes toolFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33% { transform: translateY(-14px) rotate(5deg); }
+            66% { transform: translateY(8px) rotate(-3deg); }
+        }
+
+        /* ===== SCROLL ANIMATIONS ===== */
         .reveal {
             opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: translateY(48px);
+            transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
         }
-        .reveal.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .reveal-delay-1 { transition-delay: 0.1s; }
-        .reveal-delay-2 { transition-delay: 0.2s; }
-        .reveal-delay-3 { transition-delay: 0.3s; }
-        .reveal-delay-4 { transition-delay: 0.4s; }
-        .reveal-delay-5 { transition-delay: 0.5s; }
-        .reveal-delay-6 { transition-delay: 0.6s; }
-
+        .reveal.visible { opacity: 1; transform: translateY(0); }
         .reveal-scale {
             opacity: 0;
-            transform: scale(0.92);
-            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+            transform: scale(0.94);
+            transition: opacity 1s var(--ease), transform 1s var(--ease);
         }
-        .reveal-scale.visible {
-            opacity: 1;
-            transform: scale(1);
+        .reveal-scale.visible { opacity: 1; transform: scale(1); }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
         }
+        .reveal-left.visible { opacity: 1; transform: translateX(0); }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+        }
+        .reveal-right.visible { opacity: 1; transform: translateX(0); }
+        .d1 { transition-delay: 0.1s; }
+        .d2 { transition-delay: 0.2s; }
+        .d3 { transition-delay: 0.3s; }
+        .d4 { transition-delay: 0.4s; }
+        .d5 { transition-delay: 0.5s; }
+        .d6 { transition-delay: 0.6s; }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-12px); }
-        }
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
-            50% { opacity: 0.7; transform: translate(-50%, -50%) scale(1.15); }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-
-        /* ===== NAVIGATION ===== */
+        /* ===== NAV ===== */
         nav {
             position: fixed;
             top: 0; left: 0; right: 0;
-            z-index: 1000;
-            padding: 0 24px;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 100;
+            transition: all 0.4s var(--ease);
         }
         nav.scrolled {
-            background: rgba(0, 0, 0, 0.72);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: rgba(2,2,3,0.82);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid var(--border);
         }
         .nav-inner {
-            max-width: 1200px;
+            max-width: 1160px;
             margin: 0 auto;
-            padding: 16px 0;
+            padding: 18px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
         }
-        .logo-group {
+        .logo {
             display: flex;
             align-items: center;
             gap: 10px;
             text-decoration: none;
         }
-        .logo-group img {
-            width: 34px; height: 34px;
-            border-radius: 8px;
-        }
-        .logo-group .logo-text {
-            font-family: 'Nunito', sans-serif;
+        .logo img { width: 32px; height: 32px; border-radius: 8px; }
+        .logo-wordmark {
+            font-size: 1.1rem;
             font-weight: 900;
-            font-size: 1.15rem;
             letter-spacing: 0.02em;
         }
-        .logo-group .logo-text .white { color: #fff; }
-        .logo-group .logo-text .orange { color: var(--warm-orange); }
-
+        .logo-wordmark span:first-child { color: #fff; }
+        .logo-wordmark span:last-child { color: var(--orange); }
         .nav-links {
             display: flex;
-            gap: 32px;
             align-items: center;
+            gap: 28px;
         }
         .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
             font-size: 0.85rem;
             font-weight: 400;
+            color: var(--fg-muted);
+            text-decoration: none;
             transition: color 0.2s;
-            letter-spacing: -0.01em;
         }
-        .nav-links a:hover { color: #fff; }
-        .nav-links .cta-btn {
-            background: var(--warm-orange);
+        .nav-links a:hover { color: var(--fg); }
+        .nav-cta {
+            font-size: 0.82rem !important;
+            font-weight: 600 !important;
             color: #fff !important;
-            padding: 8px 20px;
+            background: var(--orange);
+            padding: 8px 18px;
             border-radius: 980px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            transition: all 0.3s;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.2s !important;
         }
-        .nav-links .cta-btn:hover {
-            background: #E56D00;
-            transform: scale(1.04);
-            box-shadow: 0 4px 20px rgba(255,122,0,0.3);
+        .nav-cta:hover {
+            background: #e56d00 !important;
+            box-shadow: 0 4px 20px var(--orange-glow);
+            transform: scale(1.04) !important;
         }
 
         /* ===== HERO ===== */
@@ -165,1498 +217,1330 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 140px 24px 80px;
+            padding: 160px 24px 100px;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
-        .hero-bg {
+
+        /* ambient blobs */
+        .blob {
             position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,122,0,0.08) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 20% 60%, rgba(0,178,255,0.04) 0%, transparent 60%),
-                radial-gradient(ellipse 50% 40% at 80% 60%, rgba(255,122,0,0.03) 0%, transparent 60%);
-            pointer-events: none;
-        }
-        .hero-glow {
-            position: absolute;
-            top: 10%;
-            left: 50%;
-            width: 800px;
-            height: 800px;
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255,122,0,0.08) 0%, transparent 65%);
             filter: blur(80px);
             pointer-events: none;
-            animation: pulse-glow 8s ease-in-out infinite;
+        }
+        .blob-orange {
+            width: 600px; height: 400px;
+            background: var(--orange-dim);
+            top: -100px; left: 50%;
+            transform: translateX(-50%);
+            animation: blobDrift 12s ease-in-out infinite;
+        }
+        .blob-indigo {
+            width: 500px; height: 350px;
+            background: var(--indigo-glow);
+            bottom: 0; right: -100px;
+            animation: blobDrift 16s ease-in-out infinite reverse;
+        }
+        .blob-orange-2 {
+            width: 300px; height: 300px;
+            background: rgba(255,122,0,0.05);
+            bottom: 100px; left: -50px;
+            animation: blobDrift 10s ease-in-out infinite 4s;
+        }
+        @keyframes blobDrift {
+            0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+            50% { transform: translateX(-50%) translateY(30px) scale(1.08); }
+        }
+        .blob-indigo { animation: blobDrift2 16s ease-in-out infinite reverse; }
+        .blob-orange-2 { animation: blobDrift3 10s ease-in-out infinite 4s; }
+        @keyframes blobDrift2 {
+            0%,100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.05); }
+        }
+        @keyframes blobDrift3 {
+            0%,100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(15px) scale(1.1); }
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 2;
-            max-width: 680px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-        .hero-eyebrow {
+        .eyebrow {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-            padding: 6px 16px;
+            padding: 6px 14px;
             border-radius: 980px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--fg-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 32px;
         }
-        .hero-eyebrow .dot {
+        .eyebrow-dot {
             width: 6px; height: 6px;
             border-radius: 50%;
-            background: var(--warm-orange);
-            animation: pulse-glow 2s ease-in-out infinite;
+            background: var(--orange);
+            box-shadow: 0 0 8px var(--orange);
+            animation: pulse 2s ease-in-out infinite;
         }
-        .hero-logo {
-            width: 96px; height: 96px;
-            border-radius: 22px;
-            margin-bottom: 32px;
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.1),
-                0 20px 80px rgba(255,122,0,0.2),
-                0 40px 100px rgba(0,0,0,0.5);
-            animation: float 5s ease-in-out infinite;
+        @keyframes pulse {
+            0%,100% { opacity:1; transform:scale(1); }
+            50% { opacity:0.6; transform:scale(1.3); }
         }
 
-        .hero h1 {
-            font-family: 'Nunito', sans-serif;
-            font-size: clamp(4rem, 12vw, 7rem);
+        .hero-headline {
+            font-size: clamp(3rem, 7vw, 5.5rem);
             font-weight: 900;
-            letter-spacing: -0.02em;
-            line-height: 0.95;
-            margin-bottom: 20px;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            max-width: 800px;
+            margin-bottom: 24px;
         }
-        .hero h1 .white { color: #fff; }
-        .hero h1 .orange { color: var(--warm-orange); }
-        .hero .tagline {
-            font-size: clamp(1.2rem, 3vw, 1.6rem);
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 6px;
-            letter-spacing: -0.02em;
+        .hero-headline .line-orange {
+            background: linear-gradient(90deg, var(--orange) 0%, #ffb347 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
-        .hero .motto {
-            font-size: 0.88rem;
-            color: var(--text-tertiary);
-            font-style: italic;
-            margin-bottom: 28px;
-        }
-        .hero .subtitle {
-            font-size: 1.05rem;
-            color: var(--text-secondary);
-            max-width: 540px;
-            margin: 0 auto 40px;
-            line-height: 1.7;
+        .hero-sub {
+            font-size: clamp(1rem, 2vw, 1.2rem);
             font-weight: 400;
+            color: var(--fg-muted);
+            max-width: 520px;
+            line-height: 1.6;
+            margin-bottom: 40px;
         }
-        .hero-buttons {
+        .hero-actions {
             display: flex;
-            gap: 16px;
-            justify-content: center;
             align-items: center;
+            gap: 14px;
             flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 80px;
         }
-        .app-store-btn {
-            display: inline-block;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .app-store-btn:hover {
-            transform: scale(1.06);
-            filter: brightness(1.1);
-        }
-        .app-store-btn img { height: 52px; }
-
-        .hero-phone {
-            position: relative;
-            z-index: 2;
-            margin-top: 64px;
-        }
-        .hero-phone .device-frame {
-            width: 280px;
-            position: relative;
-        }
-        .hero-phone .device-frame img {
-            width: 100%;
-            border-radius: 36px;
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.1),
-                0 40px 120px rgba(0,0,0,0.6),
-                0 0 80px rgba(255,122,0,0.1);
-        }
-
-        .hero-scroll-hint {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
+        .btn-primary {
+            display: inline-flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-tertiary);
-            font-size: 0.75rem;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
-        }
-        .scroll-line {
-            width: 1px;
-            height: 32px;
-            background: linear-gradient(to bottom, var(--warm-orange), transparent);
-            animation: scroll-line 2s ease-in-out infinite;
-        }
-        @keyframes scroll-line {
-            0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
-            50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
-            100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
-        }
-
-        /* ===== SECTION COMMON ===== */
-        .section-header {
-            text-align: center;
-            max-width: 660px;
-            margin: 0 auto 72px;
-        }
-        .section-label {
-            display: inline-block;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--warm-orange);
-            margin-bottom: 16px;
-        }
-        .section-header h2 {
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 800;
-            letter-spacing: -0.03em;
-            line-height: 1.1;
-            margin-bottom: 16px;
+            padding: 14px 28px;
+            border-radius: 980px;
+            background: var(--orange);
             color: #fff;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: background 0.2s, box-shadow 0.25s, transform 0.2s;
         }
-        .section-header p {
-            font-size: 1.1rem;
-            color: var(--text-secondary);
-            line-height: 1.6;
+        .btn-primary:hover {
+            background: #e56d00;
+            box-shadow: 0 8px 32px var(--orange-glow);
+            transform: scale(1.03) translateY(-1px);
         }
-
-        /* ===== SCREENSHOT SHOWCASE ===== */
-        .showcase {
-            padding: 120px 0 140px;
-            position: relative;
-            overflow: hidden;
-        }
-        .showcase::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-        }
-
-        .phone-carousel {
-            display: flex;
-            gap: 28px;
-            overflow-x: auto;
-            padding: 20px 60px 60px;
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-        }
-        .phone-carousel::-webkit-scrollbar { display: none; }
-
-        .phone-slide {
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
+        .btn-primary svg { width: 18px; height: 18px; }
+        .btn-ghost {
+            display: inline-flex;
             align-items: center;
-            gap: 20px;
+            gap: 8px;
+            padding: 14px 24px;
+            border-radius: 980px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--fg);
+            font-size: 0.95rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background 0.2s, border-color 0.2s, transform 0.2s;
         }
-        .device-mockup {
-            width: 240px;
+        .btn-ghost:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-strong);
+            transform: scale(1.02) translateY(-1px);
+        }
+
+        /* Hero phone */
+        .hero-device {
             position: relative;
-            border-radius: 36px;
-            overflow: hidden;
-            background: #1c1c1e;
-            box-shadow:
-                0 0 0 1px rgba(255,255,255,0.1),
-                0 20px 60px rgba(0,0,0,0.5),
-                0 0 0 8px rgba(30,30,32,0.8),
-                0 0 0 9px rgba(255,255,255,0.05);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 280px;
+            margin: 0 auto;
+            animation: heroFloat 6s ease-in-out infinite;
         }
-        .device-mockup:hover {
-            transform: translateY(-16px) scale(1.03);
-            box-shadow:
-                0 0 0 1px rgba(255,122,0,0.2),
-                0 40px 80px rgba(0,0,0,0.6),
-                0 0 0 8px rgba(30,30,32,0.8),
-                0 0 0 9px rgba(255,122,0,0.15),
-                0 0 60px rgba(255,122,0,0.08);
+        @keyframes heroFloat {
+            0%,100% { transform: translateY(0); }
+            50% { transform: translateY(-16px); }
         }
-        .device-mockup img {
+        .hero-device-frame {
             width: 100%;
+            aspect-ratio: 9/19;
+            background: #0e0e10;
+            border-radius: 44px;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            position: relative;
+            box-shadow:
+                0 0 0 1px rgba(0,0,0,0.6),
+                0 40px 80px rgba(0,0,0,0.6),
+                0 0 60px var(--orange-glow),
+                inset 0 1px 0 rgba(255,255,255,0.12);
+        }
+        .hero-device-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
             display: block;
         }
-        .phone-label {
-            font-size: 0.82rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            text-align: center;
-            max-width: 200px;
-        }
-        .phone-label .highlight {
-            color: var(--text-primary);
-            font-weight: 600;
+        .device-glow {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 60px;
+            background: var(--orange);
+            border-radius: 50%;
+            filter: blur(40px);
+            opacity: 0.25;
         }
 
-        /* ===== FEATURE DEEP DIVES ===== */
-        .feature-section {
-            padding: 160px 24px;
+        /* ===== STATS BAR ===== */
+        .stats-bar {
+            padding: 0 24px 80px;
+        }
+        .stats-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        .stat {
+            background: var(--bg-elevated);
+            padding: 32px 24px;
+            text-align: center;
+            transition: background 0.3s;
+        }
+        .stat:hover { background: var(--surface-hover); }
+        .stat-num {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            background: linear-gradient(135deg, #fff 0%, var(--fg-muted) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-num .accent { -webkit-text-fill-color: var(--orange); color: var(--orange); }
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--fg-faint);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            margin-top: 4px;
+        }
+
+        /* ===== SECTION WRAPPER ===== */
+        .section {
+            padding: 100px 24px;
+        }
+        .section-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+        }
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--orange);
+            margin-bottom: 16px;
+        }
+        .section-label::before {
+            content: '';
+            display: block;
+            width: 20px; height: 1px;
+            background: var(--orange);
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
+            max-width: 600px;
+            margin-bottom: 16px;
+        }
+        .section-sub {
+            font-size: 1.05rem;
+            color: var(--fg-muted);
+            max-width: 480px;
+            line-height: 1.65;
+            margin-bottom: 56px;
+        }
+
+        /* ===== HOW IT WORKS ===== */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .step-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px 32px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .step-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(255,122,0,0.06), transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .step-card:hover { border-color: var(--border-strong); transform: translateY(-4px); }
+        .step-card:hover::before { opacity: 1; }
+        .step-num {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--orange);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .step-icon {
+            width: 48px; height: 48px;
+            border-radius: var(--radius-sm);
+            background: var(--orange-dim);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: var(--orange);
+        }
+        .step-icon svg { width: 24px; height: 24px; }
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 10px;
+        }
+        .step-desc {
+            font-size: 0.9rem;
+            color: var(--fg-muted);
+            line-height: 1.65;
+        }
+
+        /* ===== SCREENSHOTS ===== */
+        .screens-section {
+            padding: 100px 0;
+            overflow: hidden;
+        }
+        .screens-header {
+            padding: 0 24px;
+            max-width: 1160px;
+            margin: 0 auto 56px;
+        }
+        .screens-track-wrap {
+            position: relative;
+        }
+        .screens-track-wrap::before,
+        .screens-track-wrap::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0;
+            width: 120px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .screens-track-wrap::before {
+            left: 0;
+            background: linear-gradient(to right, var(--bg-base), transparent);
+        }
+        .screens-track-wrap::after {
+            right: 0;
+            background: linear-gradient(to left, var(--bg-base), transparent);
+        }
+        .screens-track {
+            display: flex;
+            gap: 20px;
+            padding: 20px 60px 40px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+            cursor: grab;
+        }
+        .screens-track::-webkit-scrollbar { display: none; }
+        .screens-track:active { cursor: grabbing; }
+        .screen-card {
+            flex-shrink: 0;
+            width: 220px;
+            scroll-snap-align: start;
+        }
+        .screen-frame {
+            width: 100%;
+            aspect-ratio: 9/19;
+            background: #0e0e10;
+            border-radius: 32px;
+            border: 1.5px solid rgba(255,255,255,0.09);
+            overflow: hidden;
+            box-shadow:
+                0 20px 60px rgba(0,0,0,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.08);
+            transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease);
+        }
+        .screen-frame:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow:
+                0 32px 80px rgba(0,0,0,0.6),
+                0 0 40px var(--orange-glow),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+        }
+        .screen-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .screen-label {
+            text-align: center;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: var(--fg-faint);
+            margin-top: 14px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ===== FEATURES GRID ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .feature-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 36px;
+            display: flex;
+            gap: 24px;
+            align-items: flex-start;
+            transition: border-color 0.3s, transform 0.3s, background 0.3s;
             position: relative;
             overflow: hidden;
         }
-        .feature-section::before {
+        .feature-card::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
         }
-        .feature-section:nth-child(even) {
-            background: var(--bg-secondary);
+        .feature-card:hover {
+            border-color: rgba(255,122,0,0.2);
+            background: rgba(255,122,0,0.03);
+            transform: translateY(-3px);
         }
-        .feature-inner {
-            max-width: 1120px;
+        .feature-icon {
+            width: 44px; height: 44px;
+            border-radius: var(--radius-sm);
+            background: var(--orange-dim);
+            border: 1px solid rgba(255,122,0,0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--orange);
+        }
+        .feature-icon svg { width: 22px; height: 22px; }
+        .feature-body h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 6px;
+        }
+        .feature-body p {
+            font-size: 0.875rem;
+            color: var(--fg-muted);
+            line-height: 1.65;
+        }
+        .feature-card.wide {
+            grid-column: 1 / -1;
+        }
+
+        /* ===== DESIGN MODE SPOTLIGHT ===== */
+        .spotlight {
+            padding: 100px 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .spotlight-inner {
+            max-width: 1160px;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 80px;
             align-items: center;
         }
-        .feature-section.reversed .feature-inner {
-            direction: rtl;
-        }
-        .feature-section.reversed .feature-inner > * {
-            direction: ltr;
-        }
-
-        .feature-text {}
-        .feature-text .label {
-            display: inline-block;
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--warm-orange);
-            margin-bottom: 16px;
-        }
-        .feature-text h3 {
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-            font-weight: 800;
-            color: #fff;
-            letter-spacing: -0.03em;
-            margin-bottom: 20px;
-            line-height: 1.1;
-        }
-        .feature-text p {
-            color: var(--text-secondary);
-            font-size: 1.05rem;
-            line-height: 1.75;
-            margin-bottom: 12px;
-        }
-        .feature-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 28px;
-        }
-        .feature-tags span {
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--text-secondary);
-            background: rgba(255,255,255,0.06);
-            padding: 6px 14px;
-            border-radius: 980px;
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.3s;
-        }
-        .feature-tags span:hover {
-            border-color: rgba(255,122,0,0.2);
-            color: var(--text-primary);
-        }
-
-        .feature-visual {
+        .spotlight-content { }
+        .spotlight-phone {
+            position: relative;
             display: flex;
             justify-content: center;
         }
-        .feature-visual .device-mockup {
-            width: 280px;
+        .spotlight-phone-frame {
+            width: 260px;
+            aspect-ratio: 9/19;
+            background: #0e0e10;
+            border-radius: 40px;
+            border: 1.5px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            box-shadow:
+                0 40px 100px rgba(0,0,0,0.5),
+                0 0 80px var(--indigo-glow),
+                inset 0 1px 0 rgba(255,255,255,0.1);
+            animation: heroFloat 7s ease-in-out infinite 1s;
+        }
+        .spotlight-phone-frame img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .spotlight-glow {
+            position: absolute;
+            bottom: -60px; left: 50%;
+            transform: translateX(-50%);
+            width: 200px; height: 80px;
+            background: var(--indigo);
+            border-radius: 50%;
+            filter: blur(50px);
+            opacity: 0.2;
+        }
+        .feature-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 32px;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.9rem;
+            color: var(--fg-muted);
+        }
+        .feature-list li::before {
+            content: '';
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            background: var(--orange-dim);
+            border: 1px solid rgba(255,122,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='10' height='8' viewBox='0 0 10 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 4L3.5 6.5L9 1' stroke='%23FF7A00' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: center;
         }
 
-        /* ===== STATS BAR ===== */
-        .stats-bar {
-            padding: 80px 24px;
-            background: var(--bg-secondary);
-            border-top: 1px solid rgba(255,255,255,0.04);
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-        }
-        .stats-grid {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 32px;
-            text-align: center;
-        }
-        .stat-item {}
-        .stat-number {
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, var(--warm-orange), var(--orange-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 4px;
-        }
-        .stat-label {
-            font-size: 0.88rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-        }
-
-        /* ===== FEATURES GRID ===== */
-        .features {
-            padding: 140px 24px;
-        }
-        .features-grid {
+        /* ===== PRICING ===== */
+        .pricing-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            max-width: 1080px;
-            margin: 0 auto;
+            gap: 20px;
+            align-items: start;
         }
-        .feature-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
+        .pricing-card {
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
             border-radius: var(--radius);
-            padding: 36px 28px;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 36px 32px;
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+        .pricing-card:hover { transform: translateY(-4px); }
+        .pricing-card.featured {
+            border-color: var(--orange);
+            background: linear-gradient(160deg, rgba(255,122,0,0.08) 0%, var(--bg-elevated) 60%);
+        }
+        .pricing-card.featured::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--orange), transparent);
+        }
+        .pricing-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 980px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            background: var(--orange);
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .pricing-tier {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--fg-muted);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .pricing-price {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            margin-bottom: 4px;
+        }
+        .pricing-period {
+            font-size: 0.85rem;
+            color: var(--fg-faint);
+            margin-bottom: 28px;
+        }
+        .pricing-divider {
+            height: 1px;
+            background: var(--border);
+            margin-bottom: 28px;
+        }
+        .pricing-features {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 32px;
+        }
+        .pricing-features li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.875rem;
+            color: var(--fg-muted);
+        }
+        .pricing-features li.included { color: var(--fg); }
+        .check {
+            width: 16px; height: 16px;
+            border-radius: 50%;
+            background: rgba(255,122,0,0.15);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .check svg { width: 9px; height: 9px; color: var(--orange); }
+        .dash {
+            width: 16px; height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--fg-faint);
+            font-size: 1rem;
+        }
+        .pricing-btn {
+            display: block;
+            text-align: center;
+            padding: 13px 24px;
+            border-radius: 980px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .pricing-btn-primary {
+            background: var(--orange);
+            color: #fff;
+        }
+        .pricing-btn-primary:hover {
+            background: #e56d00;
+            box-shadow: 0 8px 24px var(--orange-glow);
+            transform: scale(1.02);
+        }
+        .pricing-btn-ghost {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--fg);
+        }
+        .pricing-btn-ghost:hover {
+            background: var(--surface-hover);
+            border-color: var(--border-strong);
+        }
+
+        /* ===== CTA BANNER ===== */
+        .cta-section {
+            padding: 80px 24px 120px;
+        }
+        .cta-inner {
+            max-width: 860px;
+            margin: 0 auto;
+            text-align: center;
+            background: var(--bg-elevated);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 72px 60px;
             position: relative;
             overflow: hidden;
         }
-        .feature-card::before {
+        .cta-inner::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--warm-orange), transparent);
-            opacity: 0;
-            transition: opacity 0.4s;
+            background: linear-gradient(90deg, transparent, var(--border-strong), transparent);
         }
-        .feature-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(255,122,0,0.15);
-            background: rgba(28,28,30,0.9);
+        .cta-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px; height: 200px;
+            background: var(--orange);
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.06;
         }
-        .feature-card:hover::before { opacity: 1; }
-        .feature-card .icon {
-            font-size: 2rem;
+        .cta-inner h2 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.1;
             margin-bottom: 16px;
-            display: block;
         }
-        .feature-card h3 {
+        .cta-inner p {
             font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #fff;
-            letter-spacing: -0.01em;
-        }
-        .feature-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            color: var(--fg-muted);
+            margin-bottom: 40px;
+            max-width: 440px;
+            margin-left: auto;
+            margin-right: auto;
             line-height: 1.6;
         }
-
-        /* ===== HOW IT WORKS ===== */
-        .how-it-works {
-            padding: 140px 24px;
-            background: var(--bg-secondary);
-        }
-        .steps-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 32px;
-            position: relative;
-        }
-        .steps-container::before {
-            content: '';
-            position: absolute;
-            top: 44px;
-            left: calc(16.66% + 24px);
-            right: calc(16.66% + 24px);
-            height: 2px;
-            background: linear-gradient(90deg, var(--warm-orange), rgba(255,122,0,0.2), var(--warm-orange));
-            opacity: 0.3;
-        }
-        .step-card {
-            text-align: center;
-            padding: 40px 24px;
-            position: relative;
-        }
-        .step-num {
-            width: 56px; height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--warm-orange), var(--orange-light));
-            color: #fff;
-            display: inline-flex;
+        .cta-actions {
+            display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 1.3rem;
-            margin-bottom: 24px;
-            box-shadow: 0 8px 32px rgba(255,122,0,0.3);
-            position: relative;
-            z-index: 1;
-        }
-        .step-card h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-            color: #fff;
-            letter-spacing: -0.01em;
-        }
-        .step-card p {
-            color: var(--text-secondary);
-            font-size: 0.92rem;
-            line-height: 1.6;
-        }
-
-        /* ===== PRICING ===== */
-        .pricing {
-            padding: 140px 24px;
-        }
-        .pricing-grid {
-            display: flex;
-            gap: 20px;
-            max-width: 1080px;
-            margin: 0 auto;
-            justify-content: center;
-            align-items: stretch;
+            gap: 14px;
             flex-wrap: wrap;
         }
-        .price-card {
-            flex: 1;
-            min-width: 280px;
-            max-width: 340px;
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: var(--radius);
-            padding: 40px 28px;
-            text-align: center;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .price-card:hover {
-            transform: translateY(-6px);
-        }
-        .price-card.featured {
-            border: 1px solid rgba(255,122,0,0.4);
-            background: rgba(255,122,0,0.04);
-            transform: scale(1.04);
-        }
-        .price-card.featured:hover {
-            transform: scale(1.04) translateY(-6px);
-        }
-        .price-card .badge {
-            position: absolute;
-            top: -13px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, var(--warm-orange), var(--orange-light));
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 5px 20px;
-            border-radius: 980px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            white-space: nowrap;
-        }
-        .price-card h3 {
-            font-size: 1.15rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-        .price-card .price {
-            font-size: 3rem;
-            font-weight: 900;
-            letter-spacing: -0.03em;
-            background: linear-gradient(135deg, var(--warm-orange), var(--orange-light));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 4px;
-        }
-        .price-card .price-period {
-            color: var(--text-tertiary);
-            font-size: 0.88rem;
-            margin-bottom: 24px;
-        }
-        .price-card .price-yearly {
-            color: var(--electric-blue);
-            font-size: 0.82rem;
-            margin-top: -16px;
-            margin-bottom: 28px;
-            font-weight: 500;
-        }
-        .price-card ul {
-            list-style: none;
-            text-align: left;
-            margin-bottom: 32px;
-            flex: 1;
-        }
-        .price-card ul li {
-            padding: 8px 0;
-            font-size: 0.9rem;
-            color: var(--text-primary);
-            display: flex;
-            align-items: flex-start;
+        .app-store-btn {
+            display: inline-flex;
+            align-items: center;
             gap: 10px;
-        }
-        .price-card ul li::before {
-            content: "\2713";
-            color: var(--warm-orange);
-            font-weight: 700;
-            flex-shrink: 0;
-            margin-top: 1px;
-        }
-        .price-card ul li.disabled {
-            color: var(--text-tertiary);
-            opacity: 0.5;
-        }
-        .price-card ul li.disabled::before {
-            content: "\2717";
-            color: var(--text-tertiary);
-        }
-        .plan-btn {
-            display: inline-block;
-            width: 100%;
-            padding: 14px;
-            border-radius: 14px;
-            font-weight: 600;
+            padding: 12px 22px;
+            background: #fff;
+            color: #000;
+            border-radius: var(--radius-sm);
             text-decoration: none;
-            font-size: 0.95rem;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            cursor: pointer;
-            border: none;
-            letter-spacing: -0.01em;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-        .plan-btn.solid {
-            background: linear-gradient(135deg, var(--warm-orange), var(--orange-light));
-            color: #fff;
-            box-shadow: 0 8px 32px rgba(255,122,0,0.3);
+        .app-store-btn:hover {
+            transform: scale(1.04) translateY(-2px);
+            box-shadow: 0 12px 32px rgba(255,255,255,0.12);
         }
-        .plan-btn.solid:hover {
-            box-shadow: 0 12px 40px rgba(255,122,0,0.4);
-            transform: translateY(-2px);
+        .app-store-btn svg { width: 20px; height: 20px; }
+        .app-store-btn .btn-sub {
+            font-size: 0.68rem;
+            font-weight: 400;
+            opacity: 0.65;
+            display: block;
+            line-height: 1;
         }
-        .plan-btn.outline {
-            background: transparent;
-            color: var(--warm-orange);
-            border: 1.5px solid rgba(255,122,0,0.3);
-        }
-        .plan-btn.outline:hover {
-            background: rgba(255,122,0,0.08);
-            border-color: var(--warm-orange);
-        }
-
-        /* ===== CTA ===== */
-        .cta-section {
-            padding: 160px 24px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .cta-section::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse 70% 60% at 50% 80%, rgba(255,122,0,0.06) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .cta-section h2 {
-            font-size: clamp(2rem, 5vw, 3.2rem);
-            font-weight: 800;
-            margin-bottom: 16px;
-            color: #fff;
-            letter-spacing: -0.03em;
-            position: relative;
-        }
-        .cta-section p {
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            font-size: 1.1rem;
-            position: relative;
+        .app-store-btn .btn-label {
+            font-size: 0.92rem;
+            font-weight: 700;
+            display: block;
+            line-height: 1.2;
         }
 
         /* ===== FOOTER ===== */
         footer {
-            padding: 40px 24px;
-            text-align: center;
-            color: var(--text-tertiary);
-            font-size: 0.82rem;
-            border-top: 1px solid rgba(255,255,255,0.04);
+            border-top: 1px solid var(--border);
+            padding: 48px 24px;
         }
-        footer a {
-            color: var(--text-tertiary);
-            text-decoration: none;
-            margin: 0 16px;
-            transition: color 0.2s;
+        .footer-inner {
+            max-width: 1160px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
         }
-        footer a:hover { color: var(--warm-orange); }
-        .footer-links { margin-bottom: 16px; }
         .footer-brand {
-            font-family: 'Nunito', sans-serif;
-            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+        .footer-brand img { width: 28px; height: 28px; border-radius: 7px; }
+        .footer-brand span {
+            font-size: 0.9rem;
+            font-weight: 800;
+            color: var(--fg-muted);
             letter-spacing: 0.02em;
         }
-        .footer-brand .white { color: #fff; }
-        .footer-brand .orange { color: var(--warm-orange); }
-
-        /* ===== SPLASH ===== */
-        .splash {
-            position: fixed;
-            inset: 0;
-            z-index: 9999;
-            background: #000;
+        .footer-links {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.8s ease, visibility 0.8s ease;
+            gap: 28px;
+            flex-wrap: wrap;
         }
-        .splash.done {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        .footer-links a {
+            font-size: 0.8rem;
+            color: var(--fg-faint);
+            text-decoration: none;
+            transition: color 0.2s;
         }
-        body.splash-active { overflow: hidden; }
-
-        /* Splash text lines */
-        .splash-line {
-            position: absolute;
-            text-align: center;
-            white-space: nowrap;
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
-        }
-        .splash-line.active { opacity: 1; }
-        .splash-line.fade-out { opacity: 0; transform: scale(1.04); }
-
-        .splash-line-1 {
-            font-family: 'Nunito', sans-serif;
-            font-size: clamp(2.2rem, 7vw, 4rem);
-            font-weight: 900;
-            color: var(--text-secondary);
-            letter-spacing: -0.02em;
-        }
-        .splash-line-2 {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(1.5rem, 4.5vw, 2.6rem);
-            font-weight: 600;
-            color: var(--text-secondary);
-        }
-        .splash-line-3 {
-            font-family: 'Inter', sans-serif;
-            font-size: clamp(1.5rem, 4.5vw, 2.6rem);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        .splash-line-3 em { color: var(--warm-orange); font-style: normal; }
-        .splash-line-4 {
-            font-family: 'Nunito', sans-serif;
-            font-size: clamp(4rem, 12vw, 7rem);
-            font-weight: 900;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-        .splash-line-4 .white { color: #fff; }
-        .splash-line-4 .orange { color: var(--warm-orange); }
-        .splash-logo {
-            width: clamp(56px, 10vw, 80px);
-            height: clamp(56px, 10vw, 80px);
-            border-radius: 18px;
-            box-shadow: 0 0 60px rgba(255,122,0,0.3);
+        .footer-links a:hover { color: var(--fg-muted); }
+        .footer-copy {
+            font-size: 0.78rem;
+            color: var(--fg-faint);
         }
 
-        /* Typewriter cursor blink */
-        .splash-cursor {
-            display: inline-block;
-            width: 3px;
-            height: 1em;
-            background: var(--warm-orange);
-            margin-left: 4px;
-            vertical-align: text-bottom;
-            animation: cursor-blink 0.6s step-end infinite;
+        /* ===== DIVIDER ===== */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border), transparent);
+            margin: 0 24px;
+            max-width: 1160px;
+            margin-left: auto;
+            margin-right: auto;
         }
-        @keyframes cursor-blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        /* Delivery tool that slides in with each line */
-        .splash-delivery-tool {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            opacity: 0;
-            transition: none;
-            z-index: 10;
-        }
-        .splash-delivery-tool svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        /* Settled tools around the final DIWAI text */
-        .splash-settled-tool {
-            position: absolute;
-            opacity: 0;
-            transform: scale(0) rotate(-30deg);
-            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            z-index: 5;
-        }
-        .splash-settled-tool.visible {
-            opacity: 1;
-            transform: scale(1) rotate(0deg);
-        }
-        .splash-settled-tool svg {
-            width: 100%;
-            height: 100%;
-        }
-        /* Final tool positions around DIWAI */
-        .settled-1  { top: 18%; left: 15%;  width: 56px; height: 56px; }
-        .settled-2  { top: 14%; right: 16%; width: 52px; height: 52px; }
-        .settled-3  { top: 34%; left: 8%;   width: 48px; height: 48px; }
-        .settled-4  { top: 30%; right: 9%;  width: 50px; height: 50px; }
-        .settled-5  { bottom: 30%; left: 10%;  width: 50px; height: 50px; }
-        .settled-6  { bottom: 32%; right: 10%; width: 48px; height: 48px; }
-        .settled-7  { bottom: 16%; left: 18%;  width: 52px; height: 52px; }
-        .settled-8  { bottom: 14%; right: 16%; width: 54px; height: 54px; }
-        .settled-1.visible  { transform: scale(1) rotate(-8deg); }
-        .settled-2.visible  { transform: scale(1) rotate(6deg); }
-        .settled-3.visible  { transform: scale(1) rotate(12deg); }
-        .settled-4.visible  { transform: scale(1) rotate(-10deg); }
-        .settled-5.visible  { transform: scale(1) rotate(5deg); }
-        .settled-6.visible  { transform: scale(1) rotate(-7deg); }
-        .settled-7.visible  { transform: scale(1) rotate(10deg); }
-        .settled-8.visible  { transform: scale(1) rotate(-5deg); }
 
         /* ===== RESPONSIVE ===== */
-        @media (max-width: 1024px) {
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 40px;
-            }
-        }
-        @media (max-width: 900px) {
-            .feature-inner {
-                grid-template-columns: 1fr;
-                gap: 48px;
-                text-align: center;
-            }
-            .feature-section.reversed .feature-inner { direction: ltr; }
-            .feature-tags { justify-content: center; }
-            .feature-visual .device-mockup { width: 240px; }
-            .feature-section { padding: 100px 24px; }
-            .steps-container {
-                grid-template-columns: 1fr;
-                gap: 16px;
-            }
-            .steps-container::before { display: none; }
-        }
-        @media (max-width: 640px) {
-            .hero { min-height: auto; padding: 120px 20px 60px; }
-            .hero-logo { width: 80px; height: 80px; border-radius: 20px; }
-            .hero-phone .device-frame { width: 220px; }
-            .device-mockup { width: 200px !important; border-radius: 30px !important; }
-            .phone-carousel { gap: 16px; padding: 20px 24px 40px; }
-            .nav-links a:not(.cta-btn) { display: none; }
-            .features { padding: 80px 20px; }
+        @media (max-width: 768px) {
+            .nav-links a:not(.nav-cta) { display: none; }
+            .steps-grid { grid-template-columns: 1fr; }
             .features-grid { grid-template-columns: 1fr; }
-            .how-it-works, .pricing { padding: 80px 20px; }
-            .section-header { margin-bottom: 48px; }
-            .section-header h2 {
-                font-size: clamp(1.6rem, 6vw, 2.4rem);
-            }
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 32px;
-            }
-            .price-card { min-width: auto; }
-            .cta-section { padding: 100px 20px; }
+            .feature-card.wide { grid-column: 1; }
+            .spotlight-inner { grid-template-columns: 1fr; gap: 48px; }
+            .spotlight-phone { order: -1; }
+            .pricing-grid { grid-template-columns: 1fr; }
+            .stats-inner { grid-template-columns: repeat(2,1fr); }
+            .cta-inner { padding: 48px 28px; }
+            .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
         }
     </style>
 </head>
-<body class="splash-active">
+<body>
 
-<!-- SPLASH -->
-<div class="splash" id="splash">
-    <!-- Delivery tool (reused for each line) -->
-    <div class="splash-delivery-tool" id="deliveryTool"></div>
+<!-- ===== SPLASH ===== -->
+<div id="splash">
+    <!-- ambient bg -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse 60% 50% at 50% 50%, rgba(255,122,0,0.06),transparent)"></div>
 
-    <!-- Text lines -->
-    <span class="splash-line splash-line-1" id="sl1"></span>
-    <span class="splash-line splash-line-2" id="sl2"></span>
-    <span class="splash-line splash-line-3" id="sl3"></span>
-    <span class="splash-line splash-line-4" id="sl4">
-        <img src="images/logo.png" alt="" class="splash-logo">
-        <span><span class="white">DIW</span><span class="orange">AI</span></span>
-    </span>
+    <!-- Tool icons -->
+    <svg class="splash-tool" id="t1" style="left:calc(50% - 380px);top:calc(50% - 60px);width:64px;height:64px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+    <svg class="splash-tool" id="t2" style="right:calc(50% - 380px);top:calc(50% - 60px);width:64px;height:64px;color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+    <svg class="splash-tool" id="t3" style="left:calc(50% - 320px);top:calc(50% + 40px);width:56px;height:56px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+    <svg class="splash-tool" id="t4" style="right:calc(50% - 320px);top:calc(50% + 40px);width:56px;height:56px;color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    <svg class="splash-tool" id="t5" style="left:calc(50% - 420px);top:calc(50% + 140px);width:52px;height:52px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    <svg class="splash-tool" id="t6" style="right:calc(50% - 420px);top:calc(50% + 140px);width:52px;height:52px;color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+    <svg class="splash-tool" id="t7" style="left:calc(50% - 360px);top:calc(50% - 160px);width:60px;height:60px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+    <svg class="splash-tool" id="t8" style="right:calc(50% - 360px);top:calc(50% - 160px);width:60px;height:60px;color:#fff" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
 
-    <!-- Settled tools that appear around final DIWAI -->
-    <div class="splash-settled-tool settled-1" id="st1"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg></div>
-    <div class="splash-settled-tool settled-2" id="st2"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg></div>
-    <div class="splash-settled-tool settled-3" id="st3"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg></div>
-    <div class="splash-settled-tool settled-4" id="st4"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.3 15.3a2.4 2.4 0 0 1 0 3.4l-2.6 2.6a2.4 2.4 0 0 1-3.4 0L2.7 8.7a2.41 2.41 0 0 1 0-3.4l2.6-2.6a2.41 2.41 0 0 1 3.4 0Z"/><path d="m14.5 12.5 2-2"/><path d="m11.5 9.5 2-2"/><path d="m8.5 6.5 2-2"/><path d="m17.5 15.5 2-2"/></svg></div>
-    <div class="splash-settled-tool settled-5" id="st5"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="6" x="2" y="2" rx="2"/><path d="M10 16v-2a2 2 0 0 1 2-2h8a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-2"/><rect width="4" height="6" x="8" y="16" rx="1"/></svg></div>
-    <div class="splash-settled-tool settled-6" id="st6"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3 1 1 0 0 1 1-1z"/><path d="M13 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1l-.81 3.242a1 1 0 0 1-.97.758H8"/><path d="M14 4h3a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3"/><path d="M18 6h4"/><path d="m5 10-2 8"/><path d="m7 18 2-8"/></svg></div>
-    <div class="splash-settled-tool settled-7" id="st7"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><circle cx="6" cy="18" r="3"/><path d="M20 4 8.12 15.88"/><path d="M14.8 14.8 20 20"/></svg></div>
-    <div class="splash-settled-tool settled-8" id="st8"><svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.56 4.56a1.5 1.5 0 0 1 0 2.122l-.47.47a3 3 0 0 1-4.212-.03 3 3 0 0 1 0-4.243l.44-.44a1.5 1.5 0 0 1 2.121 0z"/><path d="M3 22a1 1 0 0 1-1-1v-3.586a1 1 0 0 1 .293-.707l3.355-3.355a1.205 1.205 0 0 1 1.704 0l3.296 3.296a1.205 1.205 0 0 1 0 1.704l-3.355 3.355a1 1 0 0 1-.707.293z"/><path d="m9 15 7.879-7.878"/></svg></div>
+    <div class="splash-line" id="sl1">DIY...</div>
+    <div class="splash-line" id="sl2">Do It Yourself...</div>
+    <div class="splash-line orange" id="sl3">Now do it with AI.</div>
+    <div class="splash-final" id="sl4">
+        <img src="images/logo.png" alt="DIWAI">
+        <div class="splash-final-text">DIWAI</div>
+    </div>
 </div>
 
-<!-- NAV -->
-<nav id="mainNav">
+<!-- ===== NAV ===== -->
+<nav id="nav">
     <div class="nav-inner">
-        <a href="#" class="logo-group">
-            <img src="images/logo.png" alt="DIWAI logo">
-            <span class="logo-text"><span class="white">DIW</span><span class="orange">AI</span></span>
+        <a href="#" class="logo">
+            <img src="images/logo.png" alt="DIWAI">
+            <span class="logo-wordmark"><span>DIW</span><span>AI</span></span>
         </a>
         <div class="nav-links">
-            <a href="#showcase">Screenshots</a>
+            <a href="#how-it-works">How it works</a>
             <a href="#features">Features</a>
             <a href="#pricing">Pricing</a>
-            <a href="#download" class="cta-btn">Download</a>
+            <a href="support.html">Support</a>
+            <a href="https://apps.apple.com/gb/app/diwai/id6772803178" class="nav-cta">Download</a>
         </div>
     </div>
 </nav>
 
-<!-- HERO -->
-<section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-        <img src="images/logo.png" alt="DIWAI" class="hero-logo reveal">
-        <div class="hero-eyebrow reveal reveal-delay-1">
-            <span class="dot"></span>
-            Available on the App Store
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+    <div class="blob blob-orange"></div>
+    <div class="blob blob-indigo"></div>
+    <div class="blob blob-orange-2"></div>
+
+    <div class="eyebrow reveal">
+        <span class="eyebrow-dot"></span>
+        AI-Powered DIY Assistant
+    </div>
+
+    <h1 class="hero-headline reveal d1">
+        Your home projects,<br>
+        <span class="line-orange">done with AI.</span>
+    </h1>
+
+    <p class="hero-sub reveal d2">
+        Snap a photo. Get a complete step-by-step project plan — tools, materials, costs, safety guidance, and nearby stores. All powered by AI.
+    </p>
+
+    <div class="hero-actions reveal d3">
+        <a href="https://apps.apple.com/gb/app/diwai/id6772803178" class="btn-primary">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <div>
+                <span class="btn-sub">Download on the</span>
+                <span class="btn-label">App Store</span>
+            </div>
+        </a>
+        <a href="#how-it-works" class="btn-ghost">See how it works</a>
+    </div>
+
+    <div class="hero-device reveal-scale d4">
+        <div class="hero-device-frame">
+            <img src="images/01_camera_design_mode.png" alt="DIWAI App">
         </div>
-        <h1 class="reveal reveal-delay-2"><span class="white">DIW</span><span class="orange">AI</span></h1>
-        <p class="tagline reveal reveal-delay-3">Do It Yourself. Do It With AI.</p>
-        <p class="subtitle reveal reveal-delay-3">Your AI-powered DIY assistant. Snap a photo of anything in your home and get a complete project plan with step-by-step instructions, tools, materials, costs and safety guidance.</p>
-        <div class="hero-buttons reveal reveal-delay-4">
-            <a href="#download" class="app-store-btn">
-                <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
+        <div class="device-glow"></div>
+    </div>
+</section>
+
+<!-- ===== STATS ===== -->
+<div class="stats-bar">
+    <div class="stats-inner reveal">
+        <div class="stat">
+            <div class="stat-num">8<span class="accent">+</span></div>
+            <div class="stat-label">AI Modes</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">1<span class="accent">s</span></div>
+            <div class="stat-label">Photo to Plan</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">100<span class="accent">%</span></div>
+            <div class="stat-label">AI Powered</div>
+        </div>
+        <div class="stat">
+            <div class="stat-num">Free<span class="accent">*</span></div>
+            <div class="stat-label">To Get Started</div>
+        </div>
+    </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ===== HOW IT WORKS ===== -->
+<section class="section" id="how-it-works">
+    <div class="section-inner">
+        <div class="section-label reveal">How it works</div>
+        <h2 class="section-title reveal d1">Three steps.<br>Zero guesswork.</h2>
+        <p class="section-sub reveal d2">Point, plan, and do. DIWAI turns any home problem into a clear action plan in seconds.</p>
+
+        <div class="steps-grid">
+            <div class="step-card reveal d2">
+                <div class="step-num">Step 01</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                </div>
+                <h3 class="step-title">Snap a photo</h3>
+                <p class="step-desc">Point your phone at anything — a leaking tap, a wall you want to paint, a garden you want to redesign. DIWAI identifies the project instantly.</p>
+            </div>
+            <div class="step-card reveal d3">
+                <div class="step-num">Step 02</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                </div>
+                <h3 class="step-title">Get your plan</h3>
+                <p class="step-desc">AI generates a complete step-by-step guide with tools list, materials with real prices, time estimates, and safety warnings — in seconds.</p>
+            </div>
+            <div class="step-card reveal d4">
+                <div class="step-num">Step 03</div>
+                <div class="step-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <h3 class="step-title">Do the work</h3>
+                <p class="step-desc">Follow the interactive guide step-by-step. Buy materials from nearby stores with live prices. Get AI help when you're stuck.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SCREENSHOTS ===== -->
+<section class="screens-section" id="screenshots">
+    <div class="screens-header">
+        <div class="section-label reveal">The app</div>
+        <h2 class="section-title reveal d1">Swipe through<br>the full experience.</h2>
+        <p class="section-sub reveal d2">Every screen is designed to get you from problem to plan to done as fast as possible.</p>
+    </div>
+    <div class="screens-track-wrap">
+        <div class="screens-track" id="screensTrack">
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/01_camera_design_mode.png" alt="Camera & Design Mode"></div>
+                <div class="screen-label">Camera & Design Mode</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/02_design_a_space.png" alt="Design a Space"></div>
+                <div class="screen-label">Design a Space</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/03_plan_a_project.png" alt="Plan a Project"></div>
+                <div class="screen-label">Plan a Project</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/04_project_overview.png" alt="Project Overview"></div>
+                <div class="screen-label">Project Overview</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/05_shopping_list.png" alt="Shopping List"></div>
+                <div class="screen-label">Shopping List</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/06_step_execution.png" alt="Step-by-Step Guide"></div>
+                <div class="screen-label">Step-by-Step Guide</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/07_nearby_stores.png" alt="Nearby Stores"></div>
+                <div class="screen-label">Nearby Stores</div>
+            </div>
+            <div class="screen-card">
+                <div class="screen-frame"><img src="images/08_profile.png" alt="Profile"></div>
+                <div class="screen-label">Profile & Settings</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== FEATURES ===== -->
+<section class="section" id="features">
+    <div class="section-inner">
+        <div class="section-label reveal">Features</div>
+        <h2 class="section-title reveal d1">Everything you need<br>to DIY smarter.</h2>
+        <p class="section-sub reveal d2">DIWAI combines AI vision, real pricing, and step-by-step guidance into one tool.</p>
+
+        <div class="features-grid">
+            <div class="feature-card reveal d2">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>AI Fix Mode</h3>
+                    <p>Photograph any problem — a broken hinge, a damp patch, cracked plaster — and get a targeted repair plan instantly.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal d3">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>AI Plan Mode</h3>
+                    <p>Describe or photograph your project. Get a complete plan broken into clear, manageable steps with time estimates.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal d2">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>Shopping List with Real Prices</h3>
+                    <p>Automatically builds a materials list with live prices from stores near you. No more guessing what things cost.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal d3">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>Nearby Stores</h3>
+                    <p>Finds B&Q, Screwfix, Toolstation and more near you. Shows opening hours and distance so you can pick up what you need fast.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal d2">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>Safety Guidance</h3>
+                    <p>Every plan includes safety warnings, required PPE, and when to call a professional — so you never take unnecessary risks.</p>
+                </div>
+            </div>
+            <div class="feature-card reveal d3">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>Voice Control</h3>
+                    <p>Hands covered in paint? Navigate steps, ask questions, and control the app entirely by voice while you work.</p>
+                </div>
+            </div>
+            <div class="feature-card wide reveal d2">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                </div>
+                <div class="feature-body">
+                    <h3>AI Design Mode <span style="font-size:0.75rem;font-weight:500;color:var(--orange);background:rgba(255,122,0,0.1);border:1px solid rgba(255,122,0,0.2);padding:2px 8px;border-radius:980px;vertical-align:middle;margin-left:6px">Premium</span></h3>
+                    <p>Photograph a room and reimagine it completely. AI generates photorealistic redesigns so you can see your vision before you pick up a brush. Compare before and after. Share with friends. Commit with confidence.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== DESIGN MODE SPOTLIGHT ===== -->
+<section class="spotlight" id="design-mode">
+    <div class="blob" style="width:400px;height:300px;background:var(--indigo-glow);top:50%;left:10%;transform:translateY(-50%);filter:blur(100px)"></div>
+    <div class="spotlight-inner">
+        <div class="spotlight-content">
+            <div class="section-label reveal">Design Mode</div>
+            <h2 class="section-title reveal d1">See it before<br>you build it.</h2>
+            <p class="section-sub reveal d2" style="margin-bottom:0">Snap a photo of any room. Tell DIWAI how you want it to look. Get a photorealistic AI render in seconds.</p>
+            <ul class="feature-list reveal d3">
+                <li>Photorealistic room renders from your photos</li>
+                <li>Multiple design styles — modern, rustic, industrial</li>
+                <li>Before & after comparison slider</li>
+                <li>Share designs with family before committing</li>
+                <li>Auto-generates the project plan to achieve the look</li>
+            </ul>
+        </div>
+        <div class="spotlight-phone reveal-right d2">
+            <div class="spotlight-phone-frame">
+                <img src="images/02_design_a_space.png" alt="AI Design Mode">
+            </div>
+            <div class="spotlight-glow"></div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== PRICING ===== -->
+<section class="section" id="pricing">
+    <div class="section-inner">
+        <div class="section-label reveal">Pricing</div>
+        <h2 class="section-title reveal d1">Start free.<br>Upgrade when ready.</h2>
+        <p class="section-sub reveal d2">No credit card needed to get started. Pro includes a 7-day free trial.</p>
+
+        <div class="pricing-grid">
+            <!-- Free -->
+            <div class="pricing-card reveal d2">
+                <div class="pricing-tier">Free</div>
+                <div class="pricing-price">£0</div>
+                <div class="pricing-period">Forever free</div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>1 project per month</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Basic AI analysis</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Nearby store finder</li>
+                    <li><span class="dash">—</span>Unlimited projects</li>
+                    <li><span class="dash">—</span>AI Design Mode</li>
+                    <li><span class="dash">—</span>Voice control</li>
+                </ul>
+                <a href="https://apps.apple.com/gb/app/diwai/id6772803178" class="pricing-btn pricing-btn-ghost">Get Started Free</a>
+            </div>
+
+            <!-- Pro — Featured -->
+            <div class="pricing-card featured reveal d3">
+                <div class="pricing-badge">Most Popular</div>
+                <div class="pricing-tier">Pro</div>
+                <div class="pricing-price">£3.33<span style="font-size:1.2rem;font-weight:500;color:var(--fg-muted)">/mo</span></div>
+                <div class="pricing-period">£39.99/year · 7-day free trial</div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Unlimited projects</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>AI Fix & Plan modes</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Shopping lists with prices</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Voice control</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Safety guidance</li>
+                    <li><span class="dash">—</span>AI Design Mode</li>
+                </ul>
+                <a href="https://apps.apple.com/gb/app/diwai/id6772803178" class="pricing-btn pricing-btn-primary">Start Free Trial</a>
+            </div>
+
+            <!-- Premium -->
+            <div class="pricing-card reveal d4">
+                <div class="pricing-tier">Premium</div>
+                <div class="pricing-price">£6.67<span style="font-size:1.2rem;font-weight:500;color:var(--fg-muted)">/mo</span></div>
+                <div class="pricing-period">£79.99/year · Best value</div>
+                <div class="pricing-divider"></div>
+                <ul class="pricing-features">
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Everything in Pro</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>AI Design Mode</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Before & after comparisons</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Priority AI processing</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Early access to features</li>
+                    <li class="included"><span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Priority support</li>
+                </ul>
+                <a href="https://apps.apple.com/gb/app/diwai/id6772803178" class="pricing-btn pricing-btn-ghost">Get Premium</a>
+            </div>
+        </div>
+
+        <p style="text-align:center;font-size:0.78rem;color:var(--fg-faint);margin-top:28px;line-height:1.6">
+            Prices in GBP. Subscription renews automatically. Cancel anytime in Settings → Apple ID → Subscriptions.<br>
+            By subscribing you agree to our <a href="terms.html" style="color:var(--fg-muted);text-decoration:underline">Terms of Service</a> and <a href="privacy.html" style="color:var(--fg-muted);text-decoration:underline">Privacy Policy</a>.
+        </p>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CTA ===== -->
+<section class="cta-section">
+    <div class="cta-inner reveal">
+        <div class="cta-glow"></div>
+        <div class="eyebrow" style="margin:0 auto 24px">
+            <span class="eyebrow-dot"></span>
+            Available on iOS
+        </div>
+        <h2>Start your first<br>project today.</h2>
+        <p>Free to download. Your first project is on us. No credit card required.</p>
+        <div class="cta-actions">
+            <a href="https://apps.apple.com/gb/app/diwai/id6772803178" class="app-store-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+                <div>
+                    <span class="btn-sub">Download on the</span>
+                    <span class="btn-label">App Store</span>
+                </div>
             </a>
         </div>
     </div>
-    <div class="hero-phone reveal-scale reveal-delay-6">
-        <div class="device-frame">
-            <img src="images/screenshots/camera.png" alt="DIWAI App">
-        </div>
-    </div>
-    <div class="hero-scroll-hint">
-        <span>Scroll</span>
-        <div class="scroll-line"></div>
-    </div>
 </section>
 
-<!-- SCREENSHOT SHOWCASE -->
-<section class="showcase" id="showcase">
-    <div class="section-header">
-        <span class="section-label reveal">App Preview</span>
-        <h2 class="reveal reveal-delay-1">See it in action</h2>
-        <p class="reveal reveal-delay-2">Swipe through the full app experience.</p>
-    </div>
-    <div class="phone-carousel">
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/camera.png" alt="Camera with AI modes"></div>
-            <span class="phone-label"><span class="highlight">AI Camera</span> &mdash; Fix, Plan &amp; Design</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/design.png" alt="AI Design input"></div>
-            <span class="phone-label"><span class="highlight">Design Mode</span> &mdash; reimagine your space</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/plan.png" alt="Plan a project"></div>
-            <span class="phone-label"><span class="highlight">Plan a Project</span> &mdash; voice or text</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/overview.png" alt="Project overview"></div>
-            <span class="phone-label"><span class="highlight">Full Overview</span> &mdash; cost, time &amp; difficulty</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/shopping.png" alt="Shopping list"></div>
-            <span class="phone-label"><span class="highlight">Shopping List</span> &mdash; real store prices</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/execution.png" alt="Step execution"></div>
-            <span class="phone-label"><span class="highlight">Step-by-Step</span> &mdash; guided instructions</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/stores.png" alt="Nearby stores"></div>
-            <span class="phone-label"><span class="highlight">Nearby Stores</span> &mdash; with directions</span>
-        </div>
-        <div class="phone-slide">
-            <div class="device-mockup"><img src="images/screenshots/profile.png" alt="Profile"></div>
-            <span class="phone-label"><span class="highlight">Profile</span> &mdash; manage everything</span>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURE: AI CAMERA -->
-<section class="feature-section">
-    <div class="feature-inner">
-        <div class="feature-text reveal">
-            <span class="label">AI Camera</span>
-            <h3>Point. Shoot.<br>Plan.</h3>
-            <p>Three powerful modes in one camera. <strong>Fix</strong> analyses problems and tells you how to repair them. <strong>Plan</strong> creates full project blueprints. <strong>Design</strong> reimagines your space with AI-generated mockups.</p>
-            <div class="feature-tags">
-                <span>Fix Mode</span><span>Plan Mode</span><span>Design Mode</span><span>Voice Input</span>
-            </div>
-        </div>
-        <div class="feature-visual reveal-scale reveal-delay-2">
-            <div class="device-mockup"><img src="images/screenshots/camera.png" alt="Camera modes" loading="lazy"></div>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURE: SMART PLANNING -->
-<section class="feature-section reversed">
-    <div class="feature-inner">
-        <div class="feature-text reveal">
-            <span class="label">Smart Planning</span>
-            <h3>Complete project plans<br>in seconds</h3>
-            <p>Describe your project in plain English or snap a photo. DIWAI generates a full plan with difficulty rating, time estimate, itemised costs, tools, materials, and safety warnings.</p>
-            <div class="feature-tags">
-                <span>Cost Estimates</span><span>Difficulty Rating</span><span>Safety Checks</span><span>UK Regulations</span>
-            </div>
-        </div>
-        <div class="feature-visual reveal-scale reveal-delay-2">
-            <div class="device-mockup"><img src="images/screenshots/overview.png" alt="Project plan" loading="lazy"></div>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURE: PRICE COMPARISON -->
-<section class="feature-section">
-    <div class="feature-inner">
-        <div class="feature-text reveal">
-            <span class="label">Price Comparison</span>
-            <h3>Find the best deals<br>instantly</h3>
-            <p>Every project generates a shopping list with real prices from Wickes, B&amp;Q, Screwfix, Toolstation and more. See which store is cheapest and get directions to the nearest branch.</p>
-            <div class="feature-tags">
-                <span>Store Prices</span><span>Best Price Tag</span><span>Find Nearby</span><span>Direct Links</span>
-            </div>
-        </div>
-        <div class="feature-visual reveal-scale reveal-delay-2">
-            <div class="device-mockup"><img src="images/screenshots/shopping.png" alt="Shopping list" loading="lazy"></div>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURE: FIX MODE -->
-<section class="feature-section reversed">
-    <div class="feature-inner">
-        <div class="feature-text reveal">
-            <span class="label">Fix Mode</span>
-            <h3>Diagnose anything<br>instantly</h3>
-            <p>Photograph a broken tap, cracked tile, or faulty appliance. AI identifies the problem with confidence scoring, flags safety hazards, and generates a complete repair plan. Dangerous work is flagged with professional referrals to Gas Safe, NICEIC, and certified tradespeople.</p>
-            <div class="feature-tags">
-                <span>AI Diagnosis</span><span>Safety Flags</span><span>Pro Referrals</span><span>Confidence Scoring</span>
-            </div>
-        </div>
-        <div class="feature-visual reveal-scale reveal-delay-2">
-            <div class="device-mockup"><img src="images/screenshots/camera.png" alt="Fix mode diagnosis" loading="lazy"></div>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURE: STEP EXECUTION -->
-<section class="feature-section">
-    <div class="feature-inner">
-        <div class="feature-text reveal">
-            <span class="label">Step Execution</span>
-            <h3>Guided from<br>start to finish</h3>
-            <p>Follow AI-generated visual instructions step by step. Each step includes tools needed, safety warnings, pro tips, and estimated duration. Use voice commands hands-free, then snap a photo to verify your work with <strong>Check My Work</strong> before moving on.</p>
-            <div class="feature-tags">
-                <span>Visual Guides</span><span>Voice Hands-Free</span><span>Check My Work</span><span>Progress Tracking</span>
-            </div>
-        </div>
-        <div class="feature-visual reveal-scale reveal-delay-2">
-            <div class="device-mockup"><img src="images/screenshots/execution.png" alt="Step execution" loading="lazy"></div>
-        </div>
-    </div>
-</section>
-
-<!-- STATS -->
-<section class="stats-bar">
-    <div class="stats-grid">
-        <div class="stat-item reveal reveal-delay-1">
-            <div class="stat-number">3</div>
-            <div class="stat-label">AI Camera Modes</div>
-        </div>
-        <div class="stat-item reveal reveal-delay-2">
-            <div class="stat-number">15</div>
-            <div class="stat-label">Store Categories</div>
-        </div>
-        <div class="stat-item reveal reveal-delay-3">
-            <div class="stat-number">4</div>
-            <div class="stat-label">Regions Supported</div>
-        </div>
-        <div class="stat-item reveal reveal-delay-4">
-            <div class="stat-number">12+</div>
-            <div class="stat-label">Core Features</div>
-        </div>
-    </div>
-</section>
-
-<!-- FEATURES GRID -->
-<section class="features" id="features">
-    <div class="section-header">
-        <span class="section-label reveal">Features</span>
-        <h2 class="reveal reveal-delay-1">Your DIY copilot</h2>
-        <p class="reveal reveal-delay-2">Everything you need to tackle any project with confidence.</p>
-    </div>
-    <div class="features-grid">
-        <div class="feature-card reveal reveal-delay-1">
-            <div class="icon">&#128247;</div>
-            <h3>Snap &amp; Plan</h3>
-            <p>Point your camera at a leaky tap, cracked wall, or tired room. DIWAI analyses the image and generates a full project plan instantly.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-            <div class="icon">&#128269;</div>
-            <h3>Fix &amp; Diagnose</h3>
-            <p>AI-powered diagnosis with confidence scoring. Identifies what's broken, flags safety concerns, and suggests repair actions with professional referrals when needed.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-            <div class="icon">&#127912;</div>
-            <h3>AI Design Mode</h3>
-            <p>Visualise renovations before you start. Get three AI-generated design concepts with before &amp; after comparisons and one-tap conversion to project plans.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-            <div class="icon">&#128295;</div>
-            <h3>Tools &amp; Materials</h3>
-            <p>Detailed lists of exactly what you need — tools, materials, quantities, and estimated costs from real retailers. Share your shopping list or compare prices.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-            <div class="icon">&#128220;</div>
-            <h3>Step-by-Step Guide</h3>
-            <p>Clear numbered steps with time estimates, AI-generated visual guides, pro tips, and per-step checklists. Follow along at your own pace.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-            <div class="icon">&#9989;</div>
-            <h3>Check My Work</h3>
-            <p>Snap a photo of your completed step and let AI verify your work. Get quality assessment and improvement suggestions before moving on.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-            <div class="icon">&#9888;&#65039;</div>
-            <h3>Safety Guidance</h3>
-            <p>Four-level safety system from info to blocker. PPE recommendations, hazard warnings, building regulations, and certified professional referrals.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-            <div class="icon">&#127908;</div>
-            <h3>Voice Control</h3>
-            <p>Hands-free operation with on-device speech recognition. Navigate steps, repeat instructions, and control your workflow entirely by voice.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-            <div class="icon">&#128205;</div>
-            <h3>Nearby Stores</h3>
-            <p>Find 15 types of suppliers near you — DIY stores, builders merchants, tool hire, timber, tiles, plumbing, and more. One-tap directions.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-1">
-            <div class="icon">&#127909;</div>
-            <h3>Smart Camera</h3>
-            <p>Pro camera with zoom presets (0.5x, 1x, 3x), pinch-to-zoom, front/back switching, and three AI modes from one viewfinder.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-2">
-            <div class="icon">&#127758;</div>
-            <h3>Multi-Region</h3>
-            <p>Tailored for UK, USA, EU, and Australia. Region-specific regulations, local retailer pricing, and measurement unit support.</p>
-        </div>
-        <div class="feature-card reveal reveal-delay-3">
-            <div class="icon">&#128194;</div>
-            <h3>Project Management</h3>
-            <p>Save unlimited projects, track progress, and pick up where you left off. Rename, organise by room, and manage from your profile.</p>
-        </div>
-    </div>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-it-works" id="how-it-works">
-    <div class="section-header">
-        <span class="section-label reveal">How It Works</span>
-        <h2 class="reveal reveal-delay-1">Three simple steps</h2>
-        <p class="reveal reveal-delay-2">From problem to solution in under a minute.</p>
-    </div>
-    <div class="steps-container">
-        <div class="step-card reveal reveal-delay-1">
-            <div class="step-num">1</div>
-            <h3>Describe or Photograph</h3>
-            <p>Type what you want to do, use voice, or snap a photo. "Tile my bathroom wall", "fix this leaking tap" — anything goes.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-2">
-            <div class="step-num">2</div>
-            <h3>Get Your Plan</h3>
-            <p>AI analyses your project and builds a complete plan: steps, tools, materials, cost estimate, difficulty and time.</p>
-        </div>
-        <div class="step-card reveal reveal-delay-3">
-            <div class="step-num">3</div>
-            <h3>Do It</h3>
-            <p>Follow each step with detailed instructions, visual guides and safety tips. Track progress and complete like a pro.</p>
-        </div>
-    </div>
-</section>
-
-<!-- PRICING -->
-<section class="pricing" id="pricing">
-    <div class="section-header">
-        <span class="section-label reveal">Pricing</span>
-        <h2 class="reveal reveal-delay-1">Choose your plan</h2>
-        <p class="reveal reveal-delay-2">Start with a 7-day free trial. Upgrade or cancel anytime.</p>
-    </div>
-    <div class="pricing-grid">
-        <div class="price-card reveal reveal-delay-1">
-            <h3>Free</h3>
-            <div class="price">&pound;0</div>
-            <div class="price-period">forever</div>
-            <ul>
-                <li>7-day trial of Pro features</li>
-                <li>1 project per month</li>
-                <li>Basic AI photo analysis</li>
-                <li>Nearby store finder</li>
-                <li class="disabled">Unlimited projects</li>
-                <li class="disabled">AI Design Mode</li>
-                <li class="disabled">Priority AI processing</li>
-            </ul>
-            <a href="#download" class="plan-btn outline">Get Started</a>
-        </div>
-        <div class="price-card featured reveal reveal-delay-2">
-            <div class="badge">Most Popular</div>
-            <h3>Pro</h3>
-            <div class="price">&pound;4.99</div>
-            <div class="price-period">per month</div>
-            <div class="price-yearly">or &pound;39.99/year (save 33%)</div>
-            <ul>
-                <li>7-day free trial</li>
-                <li>Unlimited projects</li>
-                <li>AI Fix &amp; Plan modes</li>
-                <li>Full step-by-step instructions</li>
-                <li>Tools, materials &amp; cost estimates</li>
-                <li>Shopping lists with store prices</li>
-                <li>Voice control hands-free mode</li>
-                <li>Safety guidance &amp; regulations</li>
-                <li class="disabled">AI Design Mode</li>
-            </ul>
-            <a href="#download" class="plan-btn solid">Start Free Trial</a>
-        </div>
-        <div class="price-card reveal reveal-delay-3">
-            <div class="badge" style="background:linear-gradient(135deg, var(--electric-blue), #40C8FF);">Best Value</div>
-            <h3>Premium</h3>
-            <div class="price">&pound;9.99</div>
-            <div class="price-period">per month</div>
-            <div class="price-yearly">or &pound;79.99/year (save 33%)</div>
-            <ul>
-                <li>Everything in Pro</li>
-                <li>AI Design Mode &mdash; visualise renovations</li>
-                <li>Before &amp; after comparisons</li>
-                <li>Priority AI processing</li>
-                <li>Early access to new features</li>
-                <li>Unlimited design mockups</li>
-            </ul>
-            <a href="#download" class="plan-btn outline">Start Free Trial</a>
-        </div>
-    </div>
-</section>
-
-<!-- CTA -->
-<section class="cta-section" id="download">
-    <h2 class="reveal">Ready to start your next project?</h2>
-    <p class="reveal reveal-delay-1">Download DIWAI and let AI be your DIY assistant.</p>
-    <a href="#" class="app-store-btn reveal reveal-delay-2">
-        <img src="https://developer.apple.com/assets/elements/badges/download-on-the-app-store.svg" alt="Download on the App Store">
-    </a>
-</section>
-
-<!-- FOOTER -->
+<!-- ===== FOOTER ===== -->
 <footer>
-    <div class="footer-links">
-        <a href="privacy.html">Privacy Policy</a>
-        <a href="terms.html">Terms of Service</a>
-        <a href="support.html">Support</a>
-        <a href="mailto:support@diwai.app">Contact</a>
+    <div class="footer-inner">
+        <a href="#" class="footer-brand">
+            <img src="images/logo.png" alt="DIWAI">
+            <span>DIWAI</span>
+        </a>
+        <div class="footer-links">
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
+            <a href="support.html">Support</a>
+            <a href="mailto:support@diwai.app">Contact</a>
+        </div>
+        <p class="footer-copy">© 2026 DIWAI. All rights reserved.</p>
     </div>
-    <span class="footer-brand"><span class="white">DIW</span><span class="orange">AI</span></span> &mdash; Do It Yourself. Do It With AI. &copy; 2026
 </footer>
 
 <script>
-// Splash animation — tools deliver the text
+// ===== SPLASH ANIMATION =====
 (function() {
-    var splash = document.getElementById('splash');
-    var deliveryTool = document.getElementById('deliveryTool');
+    const splash = document.getElementById('splash');
+    const lines = ['sl1','sl2','sl3'];
+    const final = document.getElementById('sl4');
+    const tools = document.querySelectorAll('.splash-tool');
 
-    // Tool SVGs for delivery (hammer, paintbrush, drill, wrench)
-    var toolSVGs = [
-        '<svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 12-9.373 9.373a1 1 0 0 1-3.001-3L12 9"/><path d="m18 15 4-4"/><path d="m21.5 11.5-1.914-1.914A2 2 0 0 1 19 8.172v-.344a2 2 0 0 0-.586-1.414l-1.657-1.657A6 6 0 0 0 12.516 3H9l1.243 1.243A6 6 0 0 1 12 8.485V10l2 2h1.172a2 2 0 0 1 1.414.586L18.5 14.5"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m14.622 17.897-10.68-2.913"/><path d="M18.376 2.622a1 1 0 1 1 3.002 3.002L17.36 9.643a.5.5 0 0 0 0 .707l.944.944a2.41 2.41 0 0 1 0 3.408l-.944.944a.5.5 0 0 1-.707 0L8.354 7.348a.5.5 0 0 1 0-.707l.944-.944a2.41 2.41 0 0 1 3.408 0l.944.944a.5.5 0 0 0 .707 0z"/><path d="M9 8c-1.804 2.71-3.97 3.46-6.583 3.948a.507.507 0 0 0-.302.819l7.32 8.883a1 1 0 0 0 1.185.204C12.735 20.405 16 16.792 16 15"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="#FF7A00" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 18a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H5a3 3 0 0 1-3-3 1 1 0 0 1 1-1z"/><path d="M13 10H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a1 1 0 0 1 1 1v6a1 1 0 0 1-1 1l-.81 3.242a1 1 0 0 1-.97.758H8"/><path d="M14 4h3a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-3"/><path d="M18 6h4"/><path d="m5 10-2 8"/><path d="m7 18 2-8"/></svg>',
-        '<svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z"/></svg>'
+    // Show tools
+    tools.forEach((t, i) => {
+        setTimeout(() => {
+            t.style.opacity = '1';
+            t.style.animation = `toolFloat ${3 + i * 0.5}s ease-in-out infinite ${i * 0.3}s`;
+            t.style.transition = 'opacity 0.5s ease';
+        }, 200 + i * 100);
+    });
+
+    const sequence = [
+        () => {
+            const el = document.getElementById('sl1');
+            el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            el.style.opacity = '1';
+        },
+        () => {
+            const el = document.getElementById('sl1');
+            el.style.opacity = '0';
+            el.style.transform = 'translate(-50%, -50%) translateY(-20px)';
+            const el2 = document.getElementById('sl2');
+            el2.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            el2.style.opacity = '1';
+        },
+        () => {
+            const el = document.getElementById('sl2');
+            el.style.opacity = '0';
+            el.style.transform = 'translate(-50%, -50%) translateY(-20px)';
+            const el3 = document.getElementById('sl3');
+            el3.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            el3.style.opacity = '1';
+        },
+        () => {
+            document.getElementById('sl3').style.opacity = '0';
+            tools.forEach(t => { t.style.opacity = '0'; t.style.animation = 'none'; });
+            final.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            final.style.opacity = '1';
+            final.style.transform = 'translate(-50%, -50%) scale(1)';
+        },
+        () => {
+            splash.classList.add('hidden');
+            document.body.style.overflow = '';
+            setTimeout(() => { splash.style.display = 'none'; }, 700);
+        }
     ];
 
-    // Lines 1-3 are typewritten; line 4 is the big DIWAI reveal
-    var textLines = [
-        { id: 'sl1', text: 'DIY...', htmlText: 'DIY...' },
-        { id: 'sl2', text: 'Do it yourself...', htmlText: 'Do it yourself...' },
-        { id: 'sl3', text: 'Now do it with AI', htmlText: 'Now do it with <em>AI</em>' }
-    ];
-
-    // Tool enters from alternating sides
-    var enterDirs = ['left', 'right', 'left', 'right'];
-
-    // Typewriter effect
-    function typewrite(el, text, htmlFinal, speed, cb) {
-        var i = 0;
-        el.textContent = '';
-        var cursor = document.createElement('span');
-        cursor.className = 'splash-cursor';
-        el.appendChild(cursor);
-        el.classList.add('active');
-
-        var interval = setInterval(function() {
-            if (i < text.length) {
-                el.textContent = text.substring(0, i + 1);
-                el.appendChild(cursor);
-                i++;
-            } else {
-                clearInterval(interval);
-                // Remove cursor, show final HTML version
-                el.innerHTML = htmlFinal;
-                if (cb) cb();
-            }
-        }, speed);
-    }
-
-    // Animate delivery tool in and out
-    function animateTool(toolIdx, fromDir, onArrived, onDone) {
-        deliveryTool.innerHTML = toolSVGs[toolIdx];
-        deliveryTool.style.transition = 'none';
-        deliveryTool.style.top = 'calc(50% - 50px)';
-
-        if (fromDir === 'left') {
-            deliveryTool.style.left = '-80px';
-            deliveryTool.style.right = 'auto';
-        } else {
-            deliveryTool.style.left = 'auto';
-            deliveryTool.style.right = '-80px';
-        }
-        deliveryTool.style.opacity = '1';
-        deliveryTool.style.transform = 'rotate(0deg)';
-
-        // Force reflow
-        deliveryTool.offsetWidth;
-
-        // Slide in
-        deliveryTool.style.transition = 'all 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
-        if (fromDir === 'left') {
-            deliveryTool.style.left = 'calc(50% - 400px)';
-        } else {
-            deliveryTool.style.right = 'calc(50% - 400px)';
-        }
-
-        setTimeout(function() {
-            // Tool arrived — start typewriter
-            if (onArrived) onArrived();
-        }, 500);
-
-        // After text is done, call onDone which will slide tool out
-        return function slideOut() {
-            deliveryTool.style.transition = 'all 0.4s cubic-bezier(0.5, 0, 0.84, 0)';
-            if (fromDir === 'left') {
-                deliveryTool.style.left = 'calc(100% + 80px)';
-                deliveryTool.style.transform = 'rotate(15deg)';
-            } else {
-                deliveryTool.style.right = 'calc(100% + 80px)';
-                deliveryTool.style.transform = 'rotate(-15deg)';
-            }
-            deliveryTool.style.opacity = '0';
-            setTimeout(function() {
-                if (onDone) onDone();
-            }, 450);
-        };
-    }
-
-    // Sequence: tool in → typewrite → hold → fade text → tool out → next
-    var step = 0;
-
-    function runStep() {
-        if (step < textLines.length) {
-            var cfg = textLines[step];
-            var el = document.getElementById(cfg.id);
-            var dir = enterDirs[step];
-            var toolIdx = step;
-
-            var slideOut = animateTool(toolIdx, dir, function() {
-                // Tool arrived, start typing
-                typewrite(el, cfg.text, cfg.htmlText, 55, function() {
-                    // Text done, hold briefly then fade out
-                    setTimeout(function() {
-                        el.classList.remove('active');
-                        el.classList.add('fade-out');
-                        slideOut();
-                        // After tool exits, advance
-                        setTimeout(function() {
-                            step++;
-                            runStep();
-                        }, 500);
-                    }, 400);
-                });
-            });
-        } else {
-            // Final step: DIWAI reveal with all tools settling
-            showFinalReveal();
-        }
-    }
-
-    function showFinalReveal() {
-        // Hide delivery tool
-        deliveryTool.style.opacity = '0';
-
-        // Show DIWAI line
-        var sl4 = document.getElementById('sl4');
-        sl4.classList.add('active');
-
-        // Stagger the settled tools around it
-        for (var t = 1; t <= 8; t++) {
-            (function(idx) {
-                setTimeout(function() {
-                    var st = document.getElementById('st' + idx);
-                    if (st) st.classList.add('visible');
-                }, idx * 100);
-            })(t);
-        }
-
-        // Hold the final frame, then dismiss
-        setTimeout(function() {
-            splash.classList.add('done');
-            document.body.classList.remove('splash-active');
-        }, 1800);
-    }
-
-    // Start after fonts load
-    if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function() { setTimeout(runStep, 400); });
-    } else {
-        setTimeout(runStep, 600);
-    }
+    document.body.style.overflow = 'hidden';
+    const delays = [300, 1400, 2600, 3800, 5200];
+    delays.forEach((d, i) => setTimeout(sequence[i], d));
 })();
 
-// Scroll reveal with IntersectionObserver
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-        }
-    });
-}, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' });
-
-document.querySelectorAll('.reveal, .reveal-scale').forEach(el => revealObserver.observe(el));
-
-// Nav background on scroll
-const nav = document.getElementById('mainNav');
+// ===== NAV SCROLL =====
+const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+    nav.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-// Smooth parallax for hero phone
-const heroPhone = document.querySelector('.hero-phone');
-if (heroPhone) {
-    window.addEventListener('scroll', () => {
-        const scrolled = window.scrollY;
-        if (scrolled < window.innerHeight) {
-            heroPhone.style.transform = `translateY(${scrolled * 0.15}px)`;
-        }
-    }, { passive: true });
-}
-
-// Auto-scroll carousel
-const carousel = document.querySelector('.phone-carousel');
-if (carousel) {
-    let intervalId = null;
-    const step = 1;
-
-    function startAutoScroll() {
-        if (intervalId) return;
-        intervalId = setInterval(() => {
-            carousel.scrollLeft += step;
-            if (carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth) {
-                carousel.scrollLeft = 0;
-            }
-        }, 20);
-    }
-
-    function stopAutoScroll() {
-        clearInterval(intervalId);
-        intervalId = null;
-    }
-
-    carousel.addEventListener('mouseenter', stopAutoScroll);
-    carousel.addEventListener('mouseleave', startAutoScroll);
-    carousel.addEventListener('touchstart', stopAutoScroll, { passive: true });
-    carousel.addEventListener('touchend', () => setTimeout(startAutoScroll, 2000));
-
-    startAutoScroll();
-}
-
-// Staggered reveal for feature cards
-const cards = document.querySelectorAll('.feature-card');
-const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-            entry.target.style.transitionDelay = `${(i % 3) * 0.1}s`;
-            entry.target.classList.add('visible');
+// ===== SCROLL REVEALS =====
+const revealEls = document.querySelectorAll('.reveal, .reveal-scale, .reveal-left, .reveal-right');
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (e.isIntersecting) {
+            e.target.classList.add('visible');
+            observer.unobserve(e.target);
         }
     });
-}, { threshold: 0.05, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+revealEls.forEach(el => observer.observe(el));
 
-cards.forEach(card => cardObserver.observe(card));
+// ===== DRAG-TO-SCROLL screenshots =====
+(function() {
+    const track = document.getElementById('screensTrack');
+    let isDown = false, startX, scrollLeft;
+    track.addEventListener('mousedown', e => {
+        isDown = true;
+        track.style.cursor = 'grabbing';
+        startX = e.pageX - track.offsetLeft;
+        scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', () => { isDown = false; track.style.cursor = 'grab'; });
+    track.addEventListener('mouseup', () => { isDown = false; track.style.cursor = 'grab'; });
+    track.addEventListener('mousemove', e => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - track.offsetLeft;
+        track.scrollLeft = scrollLeft - (x - startX) * 1.5;
+    });
+})();
 </script>
-
 </body>
 </html>
